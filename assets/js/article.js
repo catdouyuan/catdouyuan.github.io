@@ -8,6 +8,16 @@
 
   var slug = new URLSearchParams(location.search).get("slug");
 
+  function shortDate(iso) {
+    var m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? m[1] + "-" + m[2] + "-" + m[3] : "—";
+  }
+
+  function articleUrl(article) {
+    return "article.html?slug=" + encodeURIComponent(article.slug);
+  }
+
+
   function fail(message) {
     headerEl.innerHTML = '<h1 class="post-title">文章加载失败</h1>';
     bodyEl.innerHTML = '<p class="empty-state article-error">' + Blog.escapeHtml(message) + "</p>";
@@ -61,7 +71,7 @@
     if (newer) {
       html += '<div class="post-nav-item next">' +
         '<span class="post-nav-label">下一篇 &rarr;</span>' +
-        '<a class="post-nav-title" href="' + Blog.articleUrl(newer) + '">' +
+        '<a class="post-nav-title" href="' + articleUrl(newer) + '">' +
           Blog.escapeHtml(newer.title) +
         "</a></div>";
     }
@@ -69,7 +79,7 @@
     if (older) {
       html += '<div class="post-nav-item prev">' +
         '<span class="post-nav-label">&larr; 上一篇</span>' +
-        '<a class="post-nav-title" href="' + Blog.articleUrl(older) + '">' +
+        '<a class="post-nav-title" href="' + articleUrl(older) + '">' +
           Blog.escapeHtml(older.title) +
         "</a></div>";
     }
@@ -97,7 +107,7 @@
         '<div class="post-meta">' +
           '<span class="meta-item">' +
             '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>' +
-            '<time datetime="' + Blog.escapeHtml(meta.date) + '">' + Blog.shortDate(meta.date) + "</time>" +
+            '<time datetime="' + Blog.escapeHtml(meta.date) + '">' + shortDate(meta.date) + "</time>" +
           "</span>" +
           '<span class="meta-item">' + Blog.escapeHtml(Blog.readingTime(markdown)) + "</span>" +
         "</div>";

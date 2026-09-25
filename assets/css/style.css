@@ -1623,3 +1623,8 @@ button.tag {
   line-height: 1.2;
   cursor: pointer;
 }
+
+/* Navigation breathing room (improves legibility on desktop) */
+.nav-menu { gap: 6px; }
+.nav-link { padding: 0 12px; }
+.nav-divider { margin: 0 2px; }
