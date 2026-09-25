@@ -7,8 +7,8 @@
 ```
 .
 ├── index.html          # 首页（最新文章）
-├── articles.html       # 文章列表（搜索 + 标签过滤）
-├── article.html        # 单篇阅读器（TOC + 上/下一篇）
+├── articles.html       # 文章归档（按年份）
+├── article.html        # 单篇阅读器（代码高亮 + 上/下一篇）
 ├── about.html          # 关于页
 ├── 404.html            # 找不到页面
 ├── feed.xml            # RSS
@@ -20,7 +20,7 @@
 │   └── *.md            # 文章正文
 └── assets/
     ├── css/style.css
-    ├── js/{main,home,articles,article,about}.js
+    ├── js/{main,home,articles,article}.js
     └── img/favicon.svg
 ```
 
@@ -34,7 +34,7 @@
      "slug": "your-slug",
      "title": "文章标题",
      "date": "2026-01-01",
-     "summary": "一句话摘要，用于卡片和 RSS。",
+     "summary": "一句话摘要，用于站内搜索和 RSS。",
      "tags": ["标签1", "标签2"]
    }
    ```

@@ -1,61 +1,18 @@
-/* Article reader: Markdown rendering, TOC, navigation and code tools. */
+/* Article reader: Markdown rendering, navigation and code tools. */
 (function () {
   var bodyEl = document.getElementById("article-body");
   var headerEl = document.getElementById("article-header");
+  var footerEl = document.getElementById("article-footer");
   var navEl = document.getElementById("article-nav");
-  var tocEl = document.getElementById("toc");
-  var layoutEl = document.querySelector(".article-page-grid");
   if (!bodyEl || !headerEl) return;
 
   var slug = new URLSearchParams(location.search).get("slug");
 
   function fail(message) {
-    bodyEl.innerHTML = '<div class="empty-state">' + Blog.escapeHtml(message) + "</div>";
-  }
-
-  function slugifyHeading(text, used) {
-    var base = text.toLowerCase().trim()
-      .replace(/[^\w\u4e00-\u9fa5]+/g, "-")
-      .replace(/^-+|-+$/g, "") || "section";
-    var id = base;
-    var i = 2;
-    while (used[id]) id = base + "-" + i++;
-    used[id] = true;
-    return id;
-  }
-
-  function buildToc(container) {
-    var headings = container.querySelectorAll("h2, h3");
-    if (headings.length < 2) return null;
-    var used = {};
-    var items = [];
-    headings.forEach(function (heading) {
-      var id = slugifyHeading(heading.textContent, used);
-      heading.id = id;
-      items.push(
-        '<a class="' + heading.tagName.toLowerCase() + '" href="#' + id + '">' +
-        Blog.escapeHtml(heading.textContent) + "</a>"
-      );
-    });
-    return '<div class="toc-title">目录</div>' + items.join("");
-  }
-
-  function setupScrollSpy() {
-    var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
-    if (!links.length || !("IntersectionObserver" in window)) return;
-    var targets = links.map(function (link) {
-      return document.getElementById(link.getAttribute("href").slice(1));
-    }).filter(Boolean);
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        links.forEach(function (link) { link.classList.remove("active"); });
-        var index = targets.indexOf(entry.target);
-        if (links[index]) links[index].classList.add("active");
-      });
-    }, { rootMargin: "-90px 0px -68% 0px", threshold: 0 });
-    targets.forEach(function (target) { observer.observe(target); });
+    headerEl.innerHTML = '<h1 class="post-title">文章加载失败</h1>';
+    bodyEl.innerHTML = '<p class="empty-state article-error">' + Blog.escapeHtml(message) + "</p>";
+    if (footerEl) footerEl.innerHTML = "";
+    if (navEl) navEl.innerHTML = "";
   }
 
   function setupCodeTools() {
@@ -97,23 +54,26 @@
 
   function renderNav(articles, index) {
     if (!navEl) return;
-    var older = articles[index + 1];
     var newer = articles[index - 1];
+    var older = articles[index + 1];
     var html = "";
-    if (older) {
-      html += '<a class="prev" href="article.html?slug=' + encodeURIComponent(older.slug) +
-        '"><span class="label">← 上一篇</span><span class="title">' +
-        Blog.escapeHtml(older.title) + "</span></a>";
-    } else {
-      html += "<span></span>";
-    }
+
     if (newer) {
-      html += '<a class="next" href="article.html?slug=' + encodeURIComponent(newer.slug) +
-        '"><span class="label">下一篇 →</span><span class="title">' +
-        Blog.escapeHtml(newer.title) + "</span></a>";
-    } else {
-      html += "<span></span>";
+      html += '<div class="post-nav-item next">' +
+        '<span class="post-nav-label">下一篇 &rarr;</span>' +
+        '<a class="post-nav-title" href="' + Blog.articleUrl(newer) + '">' +
+          Blog.escapeHtml(newer.title) +
+        "</a></div>";
     }
+
+    if (older) {
+      html += '<div class="post-nav-item prev">' +
+        '<span class="post-nav-label">&larr; 上一篇</span>' +
+        '<a class="post-nav-title" href="' + Blog.articleUrl(older) + '">' +
+          Blog.escapeHtml(older.title) +
+        "</a></div>";
+    }
+
     navEl.innerHTML = html;
   }
 
@@ -123,7 +83,6 @@
   }
 
   Blog.loadIndex().then(function (data) {
-    Blog.renderSidebar(data);
     var index = data.articles.findIndex(function (article) { return article.slug === slug; });
     if (index === -1) throw new Error("找不到该文章。");
     var meta = data.articles[index];
@@ -133,32 +92,28 @@
       if (!res.ok) throw new Error("无法加载文章内容 (" + res.status + ")");
       return res.text();
     }).then(function (markdown) {
-      var tags = (meta.tags || []).map(function (tag) {
-        return '<a class="tag" href="articles.html?tag=' + encodeURIComponent(tag) + '">' +
-          Blog.escapeHtml(tag) + "</a>";
-      }).join("");
-
       headerEl.innerHTML =
-        '<a class="back-link" href="articles.html">← 返回文章列表</a>' +
-        "<h1>" + Blog.escapeHtml(meta.title) + "</h1>" +
-        '<div class="article-meta"><time datetime="' + Blog.escapeHtml(meta.date) + '">' +
-          Blog.formatDate(meta.date) + "</time><span class=\"dot\"></span><span>" +
-          Blog.readingTime(markdown) + "</span></div>" +
-        '<div class="tags" style="margin-top:15px">' + tags + "</div>";
+        '<h1 class="post-title">' + Blog.escapeHtml(meta.title) + "</h1>" +
+        '<div class="post-meta">' +
+          '<span class="meta-item">' +
+            '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>' +
+            '<time datetime="' + Blog.escapeHtml(meta.date) + '">' + Blog.shortDate(meta.date) + "</time>" +
+          "</span>" +
+          '<span class="meta-item">' + Blog.escapeHtml(Blog.readingTime(markdown)) + "</span>" +
+        "</div>";
+
+      if (footerEl) {
+        var tags = (meta.tags || []).map(function (tag) {
+          return '<a class="tag" href="articles.html?tag=' + encodeURIComponent(tag) + '">' +
+            Blog.escapeHtml(tag) + "</a>";
+        }).join("");
+        footerEl.innerHTML = tags ? '<div class="post-tags"><span class="meta-label">标签: </span>' + tags + "</div>" : "";
+      }
 
       marked.setOptions({ gfm: true, breaks: false });
       bodyEl.innerHTML = marked.parse(markdown);
       highlightCode();
       setupCodeTools();
-
-      var tocHtml = buildToc(bodyEl);
-      if (tocHtml && tocEl) {
-        tocEl.innerHTML = tocHtml;
-        setupScrollSpy();
-      } else {
-        if (tocEl) tocEl.remove();
-        if (layoutEl) layoutEl.classList.add("no-toc");
-      }
       renderNav(data.articles, index);
     });
   }).catch(function (err) {
