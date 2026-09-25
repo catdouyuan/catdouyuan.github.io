@@ -1,93 +1,78 @@
-﻿/* Articles list page: render, tag filter, search. */
+/* Articles archive: render, search and tag filtering. */
 (function () {
   var grid = document.getElementById("post-grid");
   var searchInput = document.getElementById("search");
   var tagFilter = document.getElementById("tag-filter");
   var countEl = document.getElementById("result-count");
-  if (!grid) return;
+  if (!grid || !searchInput) return;
 
   var all = [];
   var activeTag = null;
 
-  function cardHtml(a) {
-    var tags = (a.tags || []).map(function (t) {
-      return '<span class="tag" data-tag="' + Blog.escapeHtml(t) + '">' +
-        Blog.escapeHtml(t) + "</span>";
-    }).join("");
-    var url = "article.html?slug=" + encodeURIComponent(a.slug);
-    return (
-      '<article class="post-card">' +
-        '<div class="meta"><time>' + Blog.formatDate(a.date) + "</time></div>" +
-        '<h3><a href="' + url + '">' + Blog.escapeHtml(a.title) + "</a></h3>" +
-        "<p>" + Blog.escapeHtml(a.summary || "") + "</p>" +
-        '<div class="tags">' + tags + "</div>" +
-      "</article>"
-    );
-  }
-
   function render() {
     var q = (searchInput.value || "").trim().toLowerCase();
-    var list = all.filter(function (a) {
-      var matchTag = !activeTag || (a.tags || []).indexOf(activeTag) !== -1;
-      var hay = (a.title + " " + (a.summary || "") + " " + (a.tags || []).join(" ")).toLowerCase();
-      var matchQ = !q || hay.indexOf(q) !== -1;
-      return matchTag && matchQ;
+    var list = all.filter(function (article) {
+      var tags = article.tags || [];
+      var matchTag = !activeTag || tags.indexOf(activeTag) !== -1;
+      var haystack = [article.title, article.summary || "", tags.join(" ")].join(" ").toLowerCase();
+      return matchTag && (!q || haystack.indexOf(q) !== -1);
     });
+
     if (countEl) countEl.textContent = list.length + " 篇文章";
     if (!list.length) {
-      grid.classList.remove("card-grid");
-      grid.innerHTML = '<div class="empty-state">没有匹配的文章。</div>';
+      grid.innerHTML = '<div class="empty-state">没有匹配的文章，换个关键词试试。</div>';
       return;
     }
-    grid.classList.add("card-grid");
-    grid.innerHTML = list.map(cardHtml).join("");
+    grid.innerHTML = list.map(function (article) {
+      return Blog.postCardHtml(article);
+    }).join("");
   }
 
   function renderTags() {
     var counts = {};
-    all.forEach(function (a) {
-      (a.tags || []).forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
+    all.forEach(function (article) {
+      (article.tags || []).forEach(function (tag) { counts[tag] = (counts[tag] || 0) + 1; });
     });
-    var tags = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-    tagFilter.innerHTML = tags.map(function (t) {
-      return '<span class="tag" data-tag="' + Blog.escapeHtml(t) + '">' +
-        Blog.escapeHtml(t) + "</span>";
+    var tags = Object.keys(counts).sort(function (a, b) {
+      return counts[b] - counts[a] || a.localeCompare(b, "zh-CN");
+    });
+    tagFilter.innerHTML = tags.map(function (tag) {
+      return '<span class="tag" data-tag="' + Blog.escapeHtml(tag) + '">' +
+        Blog.escapeHtml(tag) + " <small>" + counts[tag] + "</small></span>";
     }).join("");
   }
 
-  function onTagClick(tag, el) {
-    if (activeTag === tag) {
-      activeTag = null;
-    } else {
-      activeTag = tag;
-    }
-    document.querySelectorAll("#tag-filter .tag").forEach(function (n) {
-      n.classList.toggle("active", n.dataset.tag === activeTag);
+  function selectTag(tag) {
+    activeTag = activeTag === tag ? null : tag;
+    document.querySelectorAll("#tag-filter .tag").forEach(function (node) {
+      node.classList.toggle("active", node.dataset.tag === activeTag);
     });
     render();
   }
 
-  document.addEventListener("click", function (e) {
-    var t = e.target.closest(".tag");
-    if (t && t.dataset.tag) onTagClick(t.dataset.tag, t);
+  document.addEventListener("click", function (event) {
+    var tag = event.target.closest(".tag[data-tag]");
+    if (!tag || !grid.contains(tag) && !tagFilter.contains(tag)) return;
+    event.preventDefault();
+    selectTag(tag.dataset.tag);
   });
-  searchInput.addEventListener("input", render);
 
-  // Preselect tag from URL (?tag=xxx)
-  var urlTag = new URLSearchParams(location.search).get("tag");
+  searchInput.addEventListener("input", render);
 
   Blog.loadIndex().then(function (data) {
     all = data.articles;
     renderTags();
+    Blog.renderSidebar(data);
+
+    var urlTag = new URLSearchParams(location.search).get("tag");
     if (urlTag) {
       activeTag = urlTag;
-      document.querySelectorAll("#tag-filter .tag").forEach(function (n) {
-        n.classList.toggle("active", n.dataset.tag === activeTag);
+      document.querySelectorAll("#tag-filter .tag").forEach(function (node) {
+        node.classList.toggle("active", node.dataset.tag === activeTag);
       });
     }
     render();
   }).catch(function (err) {
-    grid.innerHTML = '<div class="empty-state">加载失败：' +
-      Blog.escapeHtml(err.message) + "</div>";
+    grid.innerHTML = '<div class="empty-state">加载失败：' + Blog.escapeHtml(err.message) + "</div>";
   });
 })();

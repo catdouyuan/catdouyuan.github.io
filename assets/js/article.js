@@ -1,36 +1,40 @@
-﻿/* Single-article reader: fetch markdown, render, build TOC + prev/next. */
+/* Article reader: Markdown rendering, TOC, navigation and code tools. */
 (function () {
   var bodyEl = document.getElementById("article-body");
   var headerEl = document.getElementById("article-header");
-  if (!bodyEl) return;
+  var navEl = document.getElementById("article-nav");
+  var tocEl = document.getElementById("toc");
+  var layoutEl = document.querySelector(".article-page-grid");
+  if (!bodyEl || !headerEl) return;
 
   var slug = new URLSearchParams(location.search).get("slug");
 
-  function fail(msg) {
-    bodyEl.innerHTML = '<div class="empty-state">' + Blog.escapeHtml(msg) + "</div>";
+  function fail(message) {
+    bodyEl.innerHTML = '<div class="empty-state">' + Blog.escapeHtml(message) + "</div>";
   }
 
   function slugifyHeading(text, used) {
     var base = text.toLowerCase().trim()
       .replace(/[^\w\u4e00-\u9fa5]+/g, "-")
       .replace(/^-+|-+$/g, "") || "section";
-    var id = base, i = 1;
-    while (used[id]) { id = base + "-" + (++i); }
+    var id = base;
+    var i = 2;
+    while (used[id]) id = base + "-" + i++;
     used[id] = true;
     return id;
   }
 
   function buildToc(container) {
-    var heads = container.querySelectorAll("h2, h3");
-    if (heads.length < 3) return null;
+    var headings = container.querySelectorAll("h2, h3");
+    if (headings.length < 2) return null;
     var used = {};
     var items = [];
-    heads.forEach(function (h) {
-      var id = slugifyHeading(h.textContent, used);
-      h.id = id;
+    headings.forEach(function (heading) {
+      var id = slugifyHeading(heading.textContent, used);
+      heading.id = id;
       items.push(
-        '<a class="' + h.tagName.toLowerCase() + '" href="#' + id + '">' +
-        Blog.escapeHtml(h.textContent) + "</a>"
+        '<a class="' + heading.tagName.toLowerCase() + '" href="#' + id + '">' +
+        Blog.escapeHtml(heading.textContent) + "</a>"
       );
     });
     return '<div class="toc-title">目录</div>' + items.join("");
@@ -38,102 +42,125 @@
 
   function setupScrollSpy() {
     var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
-    if (!links.length) return;
-    var targets = links.map(function (l) {
-      return document.getElementById(l.getAttribute("href").slice(1));
-    });
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          links.forEach(function (l) { l.classList.remove("active"); });
-          var i = targets.indexOf(e.target);
-          if (links[i]) links[i].classList.add("active");
-        }
+    if (!links.length || !("IntersectionObserver" in window)) return;
+    var targets = links.map(function (link) {
+      return document.getElementById(link.getAttribute("href").slice(1));
+    }).filter(Boolean);
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        links.forEach(function (link) { link.classList.remove("active"); });
+        var index = targets.indexOf(entry.target);
+        if (links[index]) links[index].classList.add("active");
       });
-    }, { rootMargin: "-80px 0px -70% 0px" });
-    targets.forEach(function (t) { if (t) obs.observe(t); });
+    }, { rootMargin: "-90px 0px -68% 0px", threshold: 0 });
+    targets.forEach(function (target) { observer.observe(target); });
   }
 
-  function renderNav(articles, idx) {
-    var wrap = document.getElementById("article-nav");
-    if (!wrap) return;
-    // articles sorted newest first; "previous" = older = idx+1
-    var older = articles[idx + 1];
-    var newer = articles[idx - 1];
+  function setupCodeTools() {
+    bodyEl.querySelectorAll("pre").forEach(function (pre) {
+      var code = pre.querySelector("code");
+      if (!code || pre.querySelector(".copy-code")) return;
+      var button = document.createElement("button");
+      button.className = "copy-code";
+      button.type = "button";
+      button.textContent = "复制";
+      button.addEventListener("click", function () {
+        var text = code.textContent || "";
+        function done() {
+          button.textContent = "已复制";
+          setTimeout(function () { button.textContent = "复制"; }, 1400);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {});
+        } else {
+          var area = document.createElement("textarea");
+          area.value = text;
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+          done();
+        }
+      });
+      pre.appendChild(button);
+    });
+  }
+
+  function highlightCode() {
+    if (!window.hljs) return;
+    bodyEl.querySelectorAll("pre code").forEach(function (block) {
+      window.hljs.highlightElement(block);
+    });
+  }
+
+  function renderNav(articles, index) {
+    if (!navEl) return;
+    var older = articles[index + 1];
+    var newer = articles[index - 1];
     var html = "";
     if (older) {
       html += '<a class="prev" href="article.html?slug=' + encodeURIComponent(older.slug) +
         '"><span class="label">← 上一篇</span><span class="title">' +
         Blog.escapeHtml(older.title) + "</span></a>";
-    } else { html += "<span></span>"; }
+    } else {
+      html += "<span></span>";
+    }
     if (newer) {
       html += '<a class="next" href="article.html?slug=' + encodeURIComponent(newer.slug) +
         '"><span class="label">下一篇 →</span><span class="title">' +
         Blog.escapeHtml(newer.title) + "</span></a>";
-    } else { html += "<span></span>"; }
-    wrap.innerHTML = html;
+    } else {
+      html += "<span></span>";
+    }
+    navEl.innerHTML = html;
   }
 
-  if (!slug) { fail("缺少文章参数。"); return; }
+  if (!slug) {
+    fail("缺少文章参数。");
+    return;
+  }
 
   Blog.loadIndex().then(function (data) {
-    var idx = data.articles.findIndex(function (a) { return a.slug === slug; });
-    if (idx === -1) throw new Error("找不到该文章。");
-    var meta = data.articles[idx];
+    Blog.renderSidebar(data);
+    var index = data.articles.findIndex(function (article) { return article.slug === slug; });
+    if (index === -1) throw new Error("找不到该文章。");
+    var meta = data.articles[index];
 
-    document.title = meta.title + " · " + (data.site && data.site.title || "博客");
+    document.title = meta.title + " · " + ((data.site && data.site.title) || "catdouyuan");
+    return fetch(Blog.ARTICLE_DIR + slug + ".md", { cache: "no-cache" }).then(function (res) {
+      if (!res.ok) throw new Error("无法加载文章内容 (" + res.status + ")");
+      return res.text();
+    }).then(function (markdown) {
+      var tags = (meta.tags || []).map(function (tag) {
+        return '<a class="tag" href="articles.html?tag=' + encodeURIComponent(tag) + '">' +
+          Blog.escapeHtml(tag) + "</a>";
+      }).join("");
 
-    return fetch(Blog.ARTICLE_DIR + slug + ".md", { cache: "no-cache" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("无法加载文章内容 (" + res.status + ")");
-        return res.text();
-      })
-      .then(function (md) {
-        // Render header
-        var tags = (meta.tags || []).map(function (t) {
-          return '<a class="tag" href="articles.html?tag=' + encodeURIComponent(t) + '">' +
-            Blog.escapeHtml(t) + "</a>";
-        }).join("");
-        headerEl.innerHTML =
-          '<a class="back-link" href="articles.html">← 返回文章列表</a>' +
-          "<h1>" + Blog.escapeHtml(meta.title) + "</h1>" +
-          '<div class="article-meta">' +
-            "<time>" + Blog.formatDate(meta.date) + "</time>" +
-            '<span class="dot"></span><span>' + Blog.readingTime(md) + "</span>" +
-          "</div>" +
-          '<div class="tags" style="margin-top:14px">' + tags + "</div>";
+      headerEl.innerHTML =
+        '<a class="back-link" href="articles.html">← 返回文章列表</a>' +
+        "<h1>" + Blog.escapeHtml(meta.title) + "</h1>" +
+        '<div class="article-meta"><time datetime="' + Blog.escapeHtml(meta.date) + '">' +
+          Blog.formatDate(meta.date) + "</time><span class=\"dot\"></span><span>" +
+          Blog.readingTime(markdown) + "</span></div>" +
+        '<div class="tags" style="margin-top:15px">' + tags + "</div>";
 
-        // Render markdown
-        marked.setOptions({
-          gfm: true,
-          breaks: false,
-          highlight: function (code, lang) {
-            if (window.hljs) {
-              try {
-                if (lang && hljs.getLanguage(lang)) {
-                  return hljs.highlight(code, { language: lang }).value;
-                }
-                return hljs.highlightAuto(code).value;
-              } catch (e) {}
-            }
-            return code;
-          }
-        });
-        bodyEl.innerHTML = marked.parse(md);
+      marked.setOptions({ gfm: true, breaks: false });
+      bodyEl.innerHTML = marked.parse(markdown);
+      highlightCode();
+      setupCodeTools();
 
-        var tocHtml = buildToc(bodyEl);
-        var layout = document.getElementById("article-layout");
-        var tocEl = document.getElementById("toc");
-        if (tocHtml && tocEl && layout) {
-          tocEl.innerHTML = tocHtml;
-          layout.classList.add("has-toc");
-          setupScrollSpy();
-        } else if (tocEl) {
-          tocEl.remove();
-        }
-
-        renderNav(data.articles, idx);
-      });
+      var tocHtml = buildToc(bodyEl);
+      if (tocHtml && tocEl) {
+        tocEl.innerHTML = tocHtml;
+        setupScrollSpy();
+      } else {
+        if (tocEl) tocEl.remove();
+        if (layoutEl) layoutEl.classList.add("no-toc");
+      }
+      renderNav(data.articles, index);
+    });
   }).catch(function (err) {
     fail(err.message);
   });

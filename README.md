@@ -20,7 +20,7 @@
 │   └── *.md            # 文章正文
 └── assets/
     ├── css/style.css
-    ├── js/{main,home,articles,article}.js
+    ├── js/{main,home,articles,article,about}.js
     └── img/favicon.svg
 ```
 
