@@ -8,9 +8,6 @@
     var params = new URLSearchParams(location.search);
     var selectedTag = params.get("tag");
 
-    /* Render tag sidebar */
-    Blog.renderTagCloud(data);
-
     /* Filter by tag */
     if (selectedTag) {
       articles = articles.filter(function (article) {

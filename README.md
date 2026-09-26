@@ -7,7 +7,7 @@
 ```
 .
 ├── index.html          # 首页（最新文章）
-├── articles.html       # 文章归档（按年份 + 标签侧栏）
+├── articles.html       # 文章归档（按年份）
 ├── article.html        # 单篇阅读器（代码高亮 + 上/下一篇）
 ├── about.html          # 关于页
 ├── 404.html            # 找不到页面

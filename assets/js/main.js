@@ -123,19 +123,6 @@ window.Blog = {
     document.querySelectorAll("[data-total-posts]").forEach(function (el) {
       el.textContent = articles.length;
     });
-  },
-
-  renderTagCloud(data) {
-    var counts = {};
-    (data.articles || []).forEach(function (article) {
-      (article.tags || []).forEach(function (tag) { counts[tag] = (counts[tag] || 0) + 1; });
-    });
-    var html = Object.keys(counts).sort(function (a, b) {
-      return counts[b] - counts[a] || a.localeCompare(b, "zh-CN");
-    }).map(function (tag) {
-      return '<a class="tag" href="articles.html?tag=' + encodeURIComponent(tag) + '">' +
-        Blog.escapeHtml(tag) + "</a>";
-    }).join("");
-    document.querySelectorAll("#tag-cloud").forEach(function (el) { el.innerHTML = html; });
   }
 };
+
