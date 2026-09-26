@@ -1,4 +1,4 @@
-/* Articles archive: all posts grouped by year, with category and tag filtering. */
+/* Articles archive: all posts grouped by year, with tag filtering. */
 (function () {
   var list = document.getElementById("archive-list");
   if (!list) return;
@@ -7,28 +7,20 @@
     var articles = data.articles;
     var params = new URLSearchParams(location.search);
     var selectedTag = params.get("tag");
-    var selectedCategory = params.get("category");
 
-    /* Render category sidebar */
-    Blog.renderCategoryList(data);
+    /* Render tag sidebar */
     Blog.renderTagCloud(data);
 
-    /* Filter by tag or category */
+    /* Filter by tag */
     if (selectedTag) {
       articles = articles.filter(function (article) {
         return (article.tags || []).indexOf(selectedTag) !== -1;
       });
     }
-    if (selectedCategory) {
-      articles = articles.filter(function (article) {
-        return article.category === selectedCategory;
-      });
-    }
 
     /* Show active filter label */
     var filterLabel = "";
-    if (selectedCategory) filterLabel = "分类：" + selectedCategory;
-    if (selectedTag) filterLabel = "标签：#" + selectedTag;
+    if (selectedTag) filterLabel = "标签：" + selectedTag;
 
     if (!articles.length) {
       list.innerHTML = '<p class="empty-state">没有找到匹配的文章。</p>' +

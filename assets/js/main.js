@@ -106,15 +106,11 @@ window.Blog = {
   },
 
   archiveItemHtml(article) {
-    var categoryBadge = article.category
-      ? '<span class="archive-post-category">' + this.escapeHtml(article.category) + '</span>'
-      : '';
     return (
       '<li class="archive-post-item">' +
         '<time class="archive-post-date" datetime="' + this.escapeHtml(article.date) + '">' +
           this.archiveDate(article.date) +
         "</time>" +
-        categoryBadge +
         '<a class="archive-post-link" href="' + this.articleUrl(article) + '">' +
           this.escapeHtml(article.title) +
         "</a>" +
@@ -141,39 +137,5 @@ window.Blog = {
         Blog.escapeHtml(tag) + "</a>";
     }).join("");
     document.querySelectorAll("#tag-cloud").forEach(function (el) { el.innerHTML = html; });
-  },
-
-  renderCategoryList(data) {
-    var categoryCounts = {};
-    (data.articles || []).forEach(function (article) {
-      if (article.category) {
-        categoryCounts[article.category] = (categoryCounts[article.category] || 0) + 1;
-      }
-    });
-
-    var selectedCategory = new URLSearchParams(location.search).get("category");
-
-    var html = '<a class="category-filter-item' + (!selectedCategory ? ' active' : '') + '" href="articles.html">' +
-      '<span class="category-filter-name">全部</span>' +
-      '<span class="category-filter-count">' + (data.articles || []).length + '</span></a>';
-
-    var categories = data.categories || [];
-    if (!categories.length) {
-      categories = Object.keys(categoryCounts).map(function (name) {
-        return { name: name, slug: name };
-      });
-    }
-
-    categories.forEach(function (cat) {
-      var count = categoryCounts[cat.name] || 0;
-      if (count === 0) return;
-      var isActive = selectedCategory === cat.name;
-      html += '<a class="category-filter-item' + (isActive ? ' active' : '') +
-        '" href="articles.html?category=' + encodeURIComponent(cat.name) + '">' +
-        '<span class="category-filter-name">' + Blog.escapeHtml(cat.name) + '</span>' +
-        '<span class="category-filter-count">' + count + '</span></a>';
-    });
-
-    document.querySelectorAll("#category-list").forEach(function (el) { el.innerHTML = html; });
   }
 };
