@@ -1,4 +1,4 @@
-# catdouyuan · 技术博客
+# catyuan · 技术博客
 
 纯静态个人技术博客，托管在 GitHub Pages，无需构建步骤。文章用 Markdown 编写，浏览器端用 [marked](https://github.com/markedjs/marked) 渲染，代码高亮用 [highlight.js](https://highlightjs.org/)。
 
@@ -7,7 +7,7 @@
 ```
 .
 ├── index.html          # 首页（最新文章）
-├── articles.html       # 文章归档（按年份）
+├── articles.html       # 文章归档（按年份 + 分类侧栏）
 ├── article.html        # 单篇阅读器（代码高亮 + 上/下一篇）
 ├── about.html          # 关于页
 ├── 404.html            # 找不到页面
@@ -16,7 +16,7 @@
 ├── robots.txt
 ├── .nojekyll           # 跳过 GitHub Pages 的 Jekyll 处理
 ├── articles/
-│   ├── index.json      # 文章清单（元数据）
+│   ├── index.json      # 文章清单（元数据 + 分类）
 │   └── *.md            # 文章正文
 └── assets/
     ├── css/style.css
@@ -35,6 +35,7 @@
      "title": "文章标题",
      "date": "2026-01-01",
      "summary": "一句话摘要，用于站内搜索和 RSS。",
+     "category": "前端",
      "tags": ["标签1", "标签2"]
    }
    ```

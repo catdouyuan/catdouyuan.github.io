@@ -97,7 +97,7 @@
     if (index === -1) throw new Error("找不到该文章。");
     var meta = data.articles[index];
 
-    document.title = meta.title + " · " + ((data.site && data.site.title) || "catdouyuan");
+    document.title = meta.title + " · " + ((data.site && data.site.title) || "catyuan");
     return fetch(Blog.ARTICLE_DIR + slug + ".md", { cache: "no-cache" }).then(function (res) {
       if (!res.ok) throw new Error("无法加载文章内容 (" + res.status + ")");
       return res.text();

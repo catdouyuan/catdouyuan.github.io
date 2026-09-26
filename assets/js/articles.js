@@ -1,18 +1,38 @@
-/* Articles archive: all posts grouped by year. */
+/* Articles archive: all posts grouped by year, with category and tag filtering. */
 (function () {
   var list = document.getElementById("archive-list");
   if (!list) return;
 
   Blog.loadIndex().then(function (data) {
     var articles = data.articles;
-    var selectedTag = new URLSearchParams(location.search).get("tag");
+    var params = new URLSearchParams(location.search);
+    var selectedTag = params.get("tag");
+    var selectedCategory = params.get("category");
+
+    /* Render category sidebar */
+    Blog.renderCategoryList(data);
+    Blog.renderTagCloud(data);
+
+    /* Filter by tag or category */
     if (selectedTag) {
       articles = articles.filter(function (article) {
         return (article.tags || []).indexOf(selectedTag) !== -1;
       });
     }
+    if (selectedCategory) {
+      articles = articles.filter(function (article) {
+        return article.category === selectedCategory;
+      });
+    }
+
+    /* Show active filter label */
+    var filterLabel = "";
+    if (selectedCategory) filterLabel = "分类：" + selectedCategory;
+    if (selectedTag) filterLabel = "标签：#" + selectedTag;
+
     if (!articles.length) {
-      list.innerHTML = '<p class="empty-state">还没有文章，敬请期待。</p>';
+      list.innerHTML = '<p class="empty-state">没有找到匹配的文章。</p>' +
+        (filterLabel ? '<p><a href="articles.html" class="clear-filter">← 查看全部文章</a></p>' : '');
       return;
     }
 
@@ -27,7 +47,15 @@
       groups[year].push(article);
     });
 
-    list.innerHTML = years.map(function (year) {
+    var headerHtml = "";
+    if (filterLabel) {
+      headerHtml = '<div class="filter-active">' +
+        '<span class="filter-label">' + Blog.escapeHtml(filterLabel) + '</span>' +
+        '<a href="articles.html" class="clear-filter">✕ 清除筛选</a>' +
+        '</div>';
+    }
+
+    list.innerHTML = headerHtml + years.map(function (year) {
       return '<section class="archive-year">' +
         '<h2 class="archive-year-title">' + Blog.escapeHtml(year) + "</h2>" +
         '<ul class="archive-posts">' +

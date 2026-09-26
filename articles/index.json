@@ -1,15 +1,22 @@
 {
   "site": {
-    "title": "catdouyuan · 技术博客",
-    "url": "https://catdouyuan.github.io",
-    "description": "工程实践、源码分析与技术思考。"
+    "title": "catyuan · 技术博客",
+    "url": "https://catyuan.github.io",
+    "description": "学习记录、技术实践与成长思考。"
   },
+  "categories": [
+    { "name": "前端", "slug": "frontend" },
+    { "name": "后端", "slug": "backend" },
+    { "name": "网络", "slug": "network" },
+    { "name": "随笔", "slug": "essay" }
+  ],
   "articles": [
     {
       "slug": "hello-world",
       "title": "开博说明：为什么我要写这个博客",
       "date": "2026-09-20",
       "summary": "介绍这个博客的定位、写作方向，以及它是如何用纯静态方式部署在 GitHub Pages 上的。",
+      "category": "随笔",
       "tags": [
         "随笔",
         "GitHub Pages"
@@ -20,6 +27,7 @@
       "title": "防抖与节流：一次把两者讲清楚",
       "date": "2026-09-22",
       "summary": "从实际场景出发，用最小可用的实现讲清 debounce 与 throttle 的区别、边界情况与选型。",
+      "category": "前端",
       "tags": [
         "JavaScript",
         "前端",
@@ -31,6 +39,7 @@
       "title": "HTTP 缓存：强缓存与协商缓存的完整链路",
       "date": "2026-09-24",
       "summary": "梳理浏览器 HTTP 缓存的决策流程，讲清 Cache-Control、ETag、Last-Modified 各自的角色。",
+      "category": "网络",
       "tags": [
         "HTTP",
         "网络",

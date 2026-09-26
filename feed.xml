@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>catdouyuan · 技术博客</title>
-    <link>https://catdouyuan.github.io/</link>
-    <description>工程实践、源码分析与技术思考。</description>
+    <title>catyuan · 技术博客</title>
+    <link>https://catyuan.github.io/</link>
+    <description>学习记录、技术实践与成长思考。</description>
     <language>zh-CN</language>
     <lastBuildDate>Thu, 24 Sep 2026 00:00:00 GMT</lastBuildDate>
-    <atom:link href="https://catdouyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://catyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTTP 缓存：强缓存与协商缓存的完整链路</title>
-      <link>https://catdouyuan.github.io/article.html?slug=http-caching</link>
+      <link>https://catyuan.github.io/article.html?slug=http-caching</link>
       <guid isPermaLink="false">http-caching</guid>
       <pubDate>Thu, 24 Sep 2026 00:00:00 GMT</pubDate>
       <description>梳理浏览器 HTTP 缓存的决策流程，讲清 Cache-Control、ETag、Last-Modified 各自的角色。</description>
@@ -19,7 +19,7 @@
     </item>
     <item>
       <title>防抖与节流：一次把两者讲清楚</title>
-      <link>https://catdouyuan.github.io/article.html?slug=debounce-throttle</link>
+      <link>https://catyuan.github.io/article.html?slug=debounce-throttle</link>
       <guid isPermaLink="false">debounce-throttle</guid>
       <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
       <description>从实际场景出发，用最小可用的实现讲清 debounce 与 throttle 的区别、边界情况与选型。</description>
@@ -29,7 +29,7 @@
     </item>
     <item>
       <title>开博说明：为什么我要写这个博客</title>
-      <link>https://catdouyuan.github.io/article.html?slug=hello-world</link>
+      <link>https://catyuan.github.io/article.html?slug=hello-world</link>
       <guid isPermaLink="false">hello-world</guid>
       <pubDate>Sun, 20 Sep 2026 00:00:00 GMT</pubDate>
       <description>介绍这个博客的定位、写作方向，以及它是如何用纯静态方式部署在 GitHub Pages 上的。</description>

@@ -1542,7 +1542,7 @@ pre:hover .copy-button {
 }
 
 /* ============================================================
-   catdouyuan integration styles
+   catyuan integration styles
    Layout follows the reference site: centered, low-chrome,
    dark editorial reading experience.
    ============================================================ */
@@ -1555,12 +1555,11 @@ pre:hover .copy-button {
   border-radius: 50%;
   background: #2bbc8a;
   color: #1d1f21;
-  font-family: "SF Mono", "Fira Code", Monaco, Menlo, Consolas, monospace;
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 26px;
   line-height: 1;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
-.logo:hover .logo-mark { background: #33d09a; }
+.logo:hover .logo-mark { background: #33d09a; transform: scale(1.05); }
 .home-search { margin-bottom: 0; }
 .home-search .search-result { color: #908d8d; font-size: 13px; }
 .archive-list { min-height: 120px; }
@@ -1628,3 +1627,212 @@ button.tag {
 .nav-menu { gap: 6px; }
 .nav-link { padding: 0 12px; }
 .nav-divider { margin: 0 2px; }
+
+/* ============================================================
+   Intro Card — Stylish self-introduction on the homepage
+   ============================================================ */
+.intro-card {
+  background: linear-gradient(135deg, rgba(43, 188, 138, 0.08) 0%, rgba(212, 128, 170, 0.06) 100%);
+  border: 1px solid rgba(43, 188, 138, 0.15);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 8px;
+}
+.intro-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+.intro-section + .intro-section {
+  border-top: 1px dashed rgba(61, 63, 65, 0.6);
+}
+.intro-icon {
+  font-size: 18px;
+  line-height: 1.4;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.intro-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6e6e6e;
+  font-weight: 600;
+}
+.intro-value {
+  font-size: 14px;
+  color: #c9cacc;
+  line-height: 1.5;
+}
+.intro-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(43, 188, 138, 0.3), transparent);
+  margin: 12px 0;
+}
+.intro-purpose {
+  font-size: 13px;
+  color: #908d8d;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   Articles Layout — Two-column with category sidebar on right
+   ============================================================ */
+.articles-layout {
+  display: flex;
+  gap: 40px;
+  max-width: var(--content-width, 900px);
+  margin: 0 auto;
+  width: 100%;
+}
+.articles-layout .archive-page {
+  flex: 1;
+  min-width: 0;
+}
+.category-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+.category-sidebar-card {
+  background: #232628;
+  border: 1px solid #3d3f41;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: border-color 0.15s ease;
+}
+.category-sidebar-card:hover {
+  border-color: rgba(43, 188, 138, 0.3);
+}
+.category-sidebar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c9cacc;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #3d3f41;
+}
+.category-sidebar-title svg {
+  color: #2bbc8a;
+}
+.category-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.category-filter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #908d8d;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+.category-filter-item:hover {
+  background: rgba(43, 188, 138, 0.08);
+  color: #c9cacc;
+}
+.category-filter-item.active {
+  background: rgba(43, 188, 138, 0.12);
+  color: #2bbc8a;
+  font-weight: 600;
+}
+.category-filter-name {
+  flex: 1;
+}
+.category-filter-count {
+  background: rgba(43, 188, 138, 0.1);
+  color: #2bbc8a;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+.category-filter-item.active .category-filter-count {
+  background: #2bbc8a;
+  color: #1d1f21;
+}
+.category-sidebar-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.category-sidebar-tags .tag {
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+/* Archive post category badge */
+.archive-post-category {
+  font-size: 11px;
+  color: #2bbc8a;
+  background: rgba(43, 188, 138, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+/* Filter active state */
+.filter-active {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(43, 188, 138, 0.08);
+  border: 1px solid rgba(43, 188, 138, 0.2);
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.filter-label {
+  font-size: 14px;
+  color: #2bbc8a;
+  font-weight: 600;
+}
+.clear-filter {
+  font-size: 12px;
+  color: #908d8d;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.clear-filter:hover {
+  color: #d480aa;
+}
+
+@media (max-width: 768px) {
+  .articles-layout {
+    flex-direction: column;
+  }
+  .category-sidebar {
+    width: 100%;
+    position: static;
+    order: -1;
+  }
+  .category-sidebar-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .category-filter-item {
+    padding: 6px 12px;
+  }
+}
