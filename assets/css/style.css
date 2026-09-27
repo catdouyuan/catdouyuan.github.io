@@ -223,6 +223,12 @@ th {
 }
 .logo img {
   display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #232628;
+  object-fit: cover;
+  padding: 3px;
 }
 .site-title {
   font-size: 1.4rem;
