@@ -123,6 +123,37 @@
       marked.setOptions({ gfm: true, breaks: false });
       bodyEl.innerHTML = marked.parse(markdown);
       highlightCode();
+
+      // Render mermaid diagrams: convert <pre><code class="language-mermaid"> into SVG
+      function renderMermaid() {
+        var blocks = bodyEl.querySelectorAll("pre code.language-mermaid");
+        if (!blocks.length) return;
+        blocks.forEach(function (code, i) {
+          var pre = code.parentElement;
+          var graphDef = code.textContent || "";
+          var id = "mermaid-graph-" + i;
+          var wrapper = document.createElement("div");
+          wrapper.className = "mermaid-wrapper";
+          pre.parentNode.replaceChild(wrapper, pre);
+          window.mermaid.render(id, graphDef).then(function (result) {
+            wrapper.innerHTML = result.svg;
+          }).catch(function () {
+            // fallback: restore as code block
+            wrapper.appendChild(pre);
+          });
+        });
+      }
+
+      // mermaid is loaded via <script type="module">, may not be ready yet
+      function waitForMermaid(attempts) {
+        if (window.mermaid && window.mermaid.render) {
+          renderMermaid();
+        } else if (attempts > 0) {
+          setTimeout(function () { waitForMermaid(attempts - 1); }, 100);
+        }
+      }
+      waitForMermaid(30);
+
       setupCodeTools();
       renderNav(data.articles, index);
     });
