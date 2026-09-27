@@ -36,6 +36,19 @@
         "网络",
         "性能"
       ]
+    },
+    {
+      "slug": "antigravity-login-stuck",
+      "title": "Antigravity 登录卡死排查实录：Google 网页已登录，但客户端没反应",
+      "date": "2026-09-27",
+      "summary": "浏览器里 Google 已授权成功，但 Antigravity 一直停在登录页。换节点、改地区都没用——根因是 OAuth token 交换由客户端进程发出，而客户端进程没走代理。",
+      "tags": [
+        "Antigravity",
+        "OAuth",
+        "代理",
+        "排障",
+        "Windows"
+      ]
     }
   ]
 }
