@@ -1,4 +1,4 @@
-﻿# Antigravity 登录卡死排查实录：Google 网页已登录，但客户端没反应
+﻿# Antigravity 登录踩坑指南
 
 在尝试登录 Antigravity 时，我遇到了一个很迷惑的现象：
 
@@ -115,14 +115,25 @@ setx https_proxy http://127.0.0.1:7897
 
 只要"这一次成功"但重启后又不行，说明环境变量没有永久化，问题随时会复发。
 
-## 常见误判清单
+## 顺便提一嘴
 
-| 误判方向 | 为什么会误判 | 实际情况 |
-|---|---|---|
-| Google 账号异常 | 浏览器端全程没报错 | 账号本身没问题，是网络出口问题 |
-| VPN 节点不稳 | 换节点后仍失败 | 节点没问题，是进程没走代理 |
-| 地区限制 | Gemini 有地区要求 | 地区改了也没用，根本原因是 token 请求发不出去 |
-| TUN 模式已开就没问题 | TUN 看起来覆盖了全部流量 | 部分场景下进程仍可能未被接管，需单独设置环境变量 |
+如果在使用gemini模型时，出现以下这种400错误，建议换一个干净一点的节点
+
+```
+Trajectory ID: 3bf9afca-aaad-42e4-b407-ccc8e8668ab3
+Error: HTTP 400 Bad Request
+Sherlog: 
+TraceID: 0x4c72919fc3e055a2
+Headers: {"Alt-Svc":["h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"],"Content-Length":["140"],"Content-Type":["text/event-stream"],"Date":["Sun, 27 Sep 2026 14:14:20 GMT"],"Server":["ESF"],"Server-Timing":["gfet4t7; dur=374"],"Vary":["Origin","X-Origin","Referer"],"X-Cloudaicompanion-Trace-Id":["4c72919fc3e055a2"],"X-Content-Type-Options":["nosniff"],"X-Frame-Options":["SAMEORIGIN"],"X-Xss-Protection":["0"]}
+
+{
+  "error": {
+    "code": 400,
+    "message": "User location is not supported for the API use.",
+    "status": "FAILED_PRECONDITION"
+  }
+}
+```
 
 ## 结语
 
