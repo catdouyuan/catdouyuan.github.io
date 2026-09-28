@@ -6,38 +6,6 @@
   },
   "articles": [
     {
-      "slug": "hello-world",
-      "title": "开博说明：为什么我要写这个博客",
-      "date": "2026-09-20",
-      "summary": "介绍这个博客的定位、写作方向，以及它是如何用纯静态方式部署在 GitHub Pages 上的。",
-      "tags": [
-        "随笔",
-        "GitHub Pages"
-      ]
-    },
-    {
-      "slug": "debounce-throttle",
-      "title": "防抖与节流：一次把两者讲清楚",
-      "date": "2026-09-22",
-      "summary": "从实际场景出发，用最小可用的实现讲清 debounce 与 throttle 的区别、边界情况与选型。",
-      "tags": [
-        "JavaScript",
-        "前端",
-        "性能"
-      ]
-    },
-    {
-      "slug": "http-caching",
-      "title": "HTTP 缓存：强缓存与协商缓存的完整链路",
-      "date": "2026-09-24",
-      "summary": "梳理浏览器 HTTP 缓存的决策流程，讲清 Cache-Control、ETag、Last-Modified 各自的角色。",
-      "tags": [
-        "HTTP",
-        "网络",
-        "性能"
-      ]
-    },
-    {
       "slug": "antigravity-login-stuck",
       "title": "Antigravity 登录踩坑指南",
       "date": "2026-09-27",
