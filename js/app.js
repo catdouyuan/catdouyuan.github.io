@@ -84,13 +84,10 @@ async function initSidebar() {
   // Tags collection
   const tagMap = {};
   const categoryMap = {};
-  const yearMap = {};
 
   articles.forEach(art => {
     (art.tags || []).forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; });
     if (art.category) categoryMap[art.category] = (categoryMap[art.category] || 0) + 1;
-    const year = (art.date || '').slice(0, 4) || '其他';
-    yearMap[year] = (yearMap[year] || 0) + 1;
   });
 
   const uniqueTags = Object.keys(tagMap);
@@ -123,18 +120,6 @@ async function initSidebar() {
     categoryListEl.innerHTML = catHtml;
   }
 
-  // Archive list
-  const archiveListEl = document.getElementById('sidebar-archives');
-  if (archiveListEl) {
-    let archHtml = '';
-    Object.keys(yearMap).sort((a, b) => b.localeCompare(a)).forEach(yr => {
-      archHtml += `<li class="archive-list-item">
-        <a class="archive-list-link" href="/archive.html?year=${yr}">${yr}</a>
-        <span class="archive-list-count">${yearMap[yr]}</span>
-      </li>`;
-    });
-    archiveListEl.innerHTML = archHtml;
-  }
 
   // Recent posts list
   const recentListEl = document.getElementById('sidebar-recent');
