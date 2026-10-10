@@ -200,8 +200,8 @@
                 const cover = art.cover || '/images/post/markerdown.jpg';
                 const cat = art.category || '默认';
                 const formattedDate = formatDate(art.date);
-                const wordEstimate = art.summary ? Math.max(1, Math.round(art.summary.length * 4.5)) : 800;
-                const readingMinutes = Math.max(1, Math.round(wordEstimate / 350));
+                const wordEstimate = art.words || (art.summary ? Math.max(1, Math.round(art.summary.length * 4.5)) : 800);
+                const readingMinutes = art.readingMinutes || Math.max(1, Math.round(wordEstimate / 350));
 
                 html += `
                 <div class="nexmoe-post">
@@ -216,7 +216,7 @@
                             <a class="nexmoefont icon-calendar-fill">${formattedDate}</a>
                             <a class="nexmoefont icon-appstore-fill -link" href="/archive.html?cat=${encodeURIComponent(cat)}">${cat}</a>
                             <a><i class="nexmoefont icon-areachart"></i>约${wordEstimate > 1000 ? (wordEstimate/1000).toFixed(1) + 'k' : wordEstimate}字</a>
-                            <a><i class="nexmoefont icon-time-circle-fill"></i>预计需${readingMinutes}分钟</a>
+                            <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要${readingMinutes}分钟</a>
                         </div>
                     </div>
                     <article>

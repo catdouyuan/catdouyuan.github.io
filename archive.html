@@ -146,20 +146,9 @@
     <!-- Main Content Reader (#nexmoe-content) -->
     <div id="nexmoe-content">
         <div class="nexmoe-primary">
-            <section class="nexmoe-archives">
-                <h1 style="margin-top: 0; margin-bottom: 24px; font-size: 24px;">文章归档</h1>
-
-                <!-- All Tags Cloud -->
-                <div class="tagcloud nexmoe-rainbow" id="archive-tagcloud"></div>
-
-                <!-- Category Big Image Cards -->
-                <div class="categories nexmoe-rainbow-fill" id="archive-categories"></div>
-
-                <!-- Timeline List Grouped by Year -->
-                <article id="archive-timeline">
-                    <div style="padding: 30px; text-align: center; color: #999;">正在加载归档…</div>
-                </article>
-            </section>
+            <div id="archive-content-container">
+                <div style="padding: 40px; text-align: center; color: #999;">正在加载…</div>
+            </div>
 
             <!-- Right Floating Tools -->
             <div class="nexmoe-post-right">
@@ -193,99 +182,158 @@
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script src="/js/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
+        async function renderArchive() {
             const data = await loadBlogData();
-            if (!data || !data.articles) return;
+            const container = document.getElementById('archive-content-container');
+            if (!container) return;
+            if (!data || !data.articles) {
+                container.innerHTML = '<div style="padding: 40px; text-align: center; color: #999;">加载文章失败</div>';
+                return;
+            }
 
             const urlParams = new URLSearchParams(window.location.search);
             const filterTag = urlParams.get('tag');
             const filterCat = urlParams.get('cat');
             const filterYear = urlParams.get('year');
 
-            let filteredArticles = data.articles;
-            if (filterTag) {
-                filteredArticles = filteredArticles.filter(a => (a.tags || []).includes(filterTag));
-            } else if (filterCat) {
-                filteredArticles = filteredArticles.filter(a => a.category === filterCat);
-            } else if (filterYear) {
-                filteredArticles = filteredArticles.filter(a => (a.date || '').startsWith(filterYear));
-            }
-
-            // 1. Tag Cloud
-            const tagMap = {};
-            data.articles.forEach(a => {
-                (a.tags || []).forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; });
-            });
-            const tagCloudEl = document.getElementById('archive-tagcloud');
-            let tagCloudHtml = '';
-            Object.keys(tagMap).forEach(t => {
-                const isActive = filterTag === t ? 'style="border: 2px solid var(--color-primary);"' : '';
-                tagCloudHtml += `<a class="mdui-ripple -unordered list-link" href="/archive.html?tag=${encodeURIComponent(t)}" ${isActive}>${t}<span>${tagMap[t]}</span></a>`;
-            });
-            tagCloudEl.innerHTML = tagCloudHtml;
-
-            // 2. Category Cards
-            const catMap = {};
-            const catCoverMap = {
-                '踩坑指南': '/images/post/development_tool.jpg',
-                '避坑指南': '/images/post/development_tool.jpg',
-                '网络与性能': '/images/post/internet.jpg',
-                '前端基础': '/images/post/JavaScript.jpg',
-                '博客搭建': '/images/post/markerdown.jpg'
-            };
-            data.articles.forEach(a => {
-                if (a.category) {
-                    catMap[a.category] = (catMap[a.category] || 0) + 1;
-                    if (a.cover && !catCoverMap[a.category]) catCoverMap[a.category] = a.cover;
-                }
-            });
-            const catCardsEl = document.getElementById('archive-categories');
-            let catCardsHtml = '';
-            Object.keys(catMap).forEach(cat => {
-                const bg = catCoverMap[cat] || '/images/background/k-on.jpg';
-                catCardsHtml += `
-                <a class="mdui-ripple" href="/archive.html?cat=${encodeURIComponent(cat)}">
-                    <div class="bg" style="background-image:url(${bg})"></div>
-                    <h1>${cat}<span>${catMap[cat]}</span></h1>
-                </a>`;
-            });
-            catCardsEl.innerHTML = catCardsHtml;
-
-            // 3. Timeline
-            const yearGroups = {};
-            filteredArticles.forEach(a => {
-                const yr = (a.date || '2026').slice(0, 4);
-                if (!yearGroups[yr]) yearGroups[yr] = [];
-                yearGroups[yr].push(a);
-            });
-
-            const timelineEl = document.getElementById('archive-timeline');
-            let timelineHtml = '';
             if (filterTag || filterCat || filterYear) {
-                timelineHtml += `<div style="margin-bottom: 20px; font-size: 15px; color: var(--color-primary);">正在展示筛选结果：${filterTag ? '标签 #' + filterTag : ''} ${filterCat ? '分类 【' + filterCat + '】' : ''} ${filterYear ? '年份 ' + filterYear : ''} <a href="/archive.html" style="margin-left: 10px; font-size: 13px; color: #666;">[清除筛选]</a></div>`;
-            }
+                // Filtered Mode: Render post card stream identical to index.html (图一)
+                let filteredArticles = data.articles;
+                if (filterTag) {
+                    filteredArticles = filteredArticles.filter(a => (a.tags || []).includes(filterTag));
+                    document.title = `Tag：${filterTag} - ${data.site.title || 'catyuan · 技术博客'}`;
+                } else if (filterCat) {
+                    filteredArticles = filteredArticles.filter(a => a.category === filterCat);
+                    document.title = `Categories：${filterCat} - ${data.site.title || 'catyuan · 技术博客'}`;
+                } else if (filterYear) {
+                    filteredArticles = filteredArticles.filter(a => (a.date || '').startsWith(filterYear));
+                    document.title = `Archive：${filterYear} - ${data.site.title || 'catyuan · 技术博客'}`;
+                }
 
-            const sortedYears = Object.keys(yearGroups).sort((a, b) => b.localeCompare(a));
-            if (!sortedYears.length) {
-                timelineHtml += '<p style="text-align: center; color: #999;">没有找到匹配的文章</p>';
-            } else {
-                sortedYears.forEach(yr => {
-                    timelineHtml += `<h2>${yr}</h2><ul>`;
-                    yearGroups[yr].forEach(art => {
-                        const monthDay = (art.date || '').slice(5) || '--';
-                        timelineHtml += `
-                        <li>
-                            <span style="display: inline-block; width: 60px; color: #999;">${monthDay}</span>
-                            <a href="/article.html?slug=${encodeURIComponent(art.slug)}">${art.title}</a>
-                        </li>`;
-                    });
-                    timelineHtml += `</ul>`;
+                if (!filteredArticles.length) {
+                    container.innerHTML = `
+                    <section class="nexmoe-posts">
+                        <div style="padding: 50px 20px; text-align: center; color: #999; background: #fff; border-radius: 16px;">
+                            <p style="font-size: 16px;">没有找到匹配的文章</p>
+                            <a href="/archive.html" class="mdui-btn mdui-ripple" style="margin-top: 10px; border-radius: 8px;">查看全部归档</a>
+                        </div>
+                    </section>`;
+                    return;
+                }
+
+                let postListHtml = '<section class="nexmoe-posts">';
+                filteredArticles.forEach(art => {
+                    const cover = art.cover || '/images/post/markerdown.jpg';
+                    const cat = art.category || '随笔';
+                    const formattedDate = formatDate(art.date);
+                    const wordsCount = art.words || (art.summary ? Math.max(1, Math.round(art.summary.length * 4.5)) : 800);
+                    const readingMinutes = art.readingMinutes || Math.max(1, Math.round(wordsCount / 350));
+
+                    postListHtml += `
+                    <div class="nexmoe-post">
+                        <a href="/article.html?slug=${encodeURIComponent(art.slug)}">
+                            <div class="nexmoe-post-cover mdui-ripple absolute" style="padding-top: 36%;">
+                                <img src="${cover}" alt="${art.title}" loading="lazy" onerror="imgOnError(this);">
+                                <h1>${art.title}</h1>
+                            </div>
+                        </a>
+                        <div class="nexmoe-post-meta">
+                            <div class="nexmoe-rainbow">
+                                <a class="nexmoefont icon-calendar-fill">${formattedDate}</a>
+                                <a class="nexmoefont icon-appstore-fill -link" href="/archive.html?cat=${encodeURIComponent(cat)}">${cat}</a>
+                                <a><i class="nexmoefont icon-areachart"></i>约${wordsCount > 1000 ? (wordsCount/1000).toFixed(1) + 'k' : wordsCount}字</a>
+                                <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要${readingMinutes}分钟</a>
+                            </div>
+                        </div>
+                        <article>
+                            <p>${art.summary || ''}</p>
+                        </article>
+                    </div>`;
                 });
+                postListHtml += '</section>';
+                container.innerHTML = postListHtml;
+
+            } else {
+                // Overview Mode: Tag Cloud + Category Cards + Year Timeline (图二)
+                document.title = `文章归档 - ${data.site.title || 'catyuan · 技术博客'}`;
+
+                // 1. Tag Cloud
+                const tagMap = {};
+                data.articles.forEach(a => {
+                    (a.tags || []).forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; });
+                });
+                let tagCloudHtml = '<div class="tagcloud nexmoe-rainbow">';
+                Object.keys(tagMap).forEach(t => {
+                    tagCloudHtml += `<a class="mdui-ripple -unordered list-link" href="/archive.html?tag=${encodeURIComponent(t)}">${t}<span>${tagMap[t]}</span></a>`;
+                });
+                tagCloudHtml += '</div>';
+
+                // 2. Category Cards
+                const catMap = {};
+                const catCoverMap = {
+                    '踩坑指南': '/images/post/development_tool.jpg',
+                    '避坑指南': '/images/post/development_tool.jpg',
+                    '网络与性能': '/images/post/internet.jpg',
+                    '前端基础': '/images/post/JavaScript.jpg',
+                    '博客搭建': '/images/post/markerdown.jpg'
+                };
+                data.articles.forEach(a => {
+                    if (a.category) {
+                        catMap[a.category] = (catMap[a.category] || 0) + 1;
+                        if (a.cover && !catCoverMap[a.category]) catCoverMap[a.category] = a.cover;
+                    }
+                });
+                let catCardsHtml = '<div class="categories nexmoe-rainbow-fill">';
+                Object.keys(catMap).forEach(cat => {
+                    const bg = catCoverMap[cat] || '/images/background/k-on.jpg';
+                    catCardsHtml += `
+                    <a class="mdui-ripple" href="/archive.html?cat=${encodeURIComponent(cat)}">
+                        <div class="bg" style="background-image:url(${bg})"></div>
+                        <h1>${cat}<span>${catMap[cat]}</span></h1>
+                    </a>`;
+                });
+                catCardsHtml += '</div>';
+
+                // 3. Timeline
+                const yearGroups = {};
+                data.articles.forEach(a => {
+                    const yr = (a.date || '2026').slice(0, 4);
+                    if (!yearGroups[yr]) yearGroups[yr] = [];
+                    yearGroups[yr].push(a);
+                });
+                const sortedYears = Object.keys(yearGroups).sort((a, b) => b.localeCompare(a));
+                let timelineHtml = '<article>';
+                if (!sortedYears.length) {
+                    timelineHtml += '<p style="text-align: center; color: #999;">没有找到匹配的文章</p>';
+                } else {
+                    sortedYears.forEach(yr => {
+                        timelineHtml += `<h2>${yr}</h2><ul>`;
+                        yearGroups[yr].forEach(art => {
+                            const monthDay = (art.date || '').slice(5) || '--';
+                            timelineHtml += `
+                            <li>
+                                <span style="display: inline-block; width: 60px; color: #999;">${monthDay}</span>
+                                <a href="/article.html?slug=${encodeURIComponent(art.slug)}">${art.title}</a>
+                            </li>`;
+                        });
+                        timelineHtml += `</ul>`;
+                    });
+                }
+                timelineHtml += '</article>';
+
+                container.innerHTML = `
+                <section class="nexmoe-archives">
+                    ${tagCloudHtml}
+                    ${catCardsHtml}
+                    ${timelineHtml}
+                </section>`;
             }
 
-            timelineEl.innerHTML = timelineHtml;
             if (window.mdui && mdui.mutation) mdui.mutation();
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderArchive);
+        window.addEventListener('popstate', renderArchive);
     </script>
 </body>
 

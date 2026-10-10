@@ -33,6 +33,8 @@
       "category": "踩坑指南",
       "cover": "/images/post/development_tool.jpg",
       "summary": "浏览器里 Google 已授权成功，但 Antigravity 一直停在登录页。换节点、改地区都没用——根因是 OAuth token 交换由客户端进程发出，未走终端代理。",
+      "words": 884,
+      "readingMinutes": 2,
       "tags": [
         "踩坑指南"
       ]
