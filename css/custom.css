@@ -185,3 +185,23 @@ article blockquote:after {
   font-family: Georgia, serif;
   pointer-events: none;
 }
+
+/* Mermaid Sequence & Diagram Container */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 28px 0;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  overflow-x: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.mermaid svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+

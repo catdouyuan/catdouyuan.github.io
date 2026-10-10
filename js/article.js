@@ -81,6 +81,33 @@
       bodyEl.innerText = mdText;
     }
 
+    // Render Mermaid Diagrams
+    if (window.mermaid) {
+      try {
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'neutral',
+          securityLevel: 'loose'
+        });
+        const mermaidBlocks = bodyEl.querySelectorAll('pre code.language-mermaid');
+        if (mermaidBlocks.length > 0) {
+          mermaidBlocks.forEach(block => {
+            const pre = block.parentElement;
+            const code = block.textContent;
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.textContent = code;
+            pre.parentElement.replaceChild(div, pre);
+          });
+          await mermaid.run({
+            nodes: bodyEl.querySelectorAll('.mermaid')
+          });
+        }
+      } catch (err) {
+        console.error('Mermaid render error:', err);
+      }
+    }
+
     // Code Highlighting
     if (window.hljs) {
       bodyEl.querySelectorAll('pre code').forEach(block => {
