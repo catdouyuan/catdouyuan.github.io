@@ -154,3 +154,34 @@ body {
     box-shadow: none;
   }
 }
+
+/* Blockquote quotation styling refinement */
+article blockquote {
+  padding: 14px 38px 14px 44px;
+  position: relative;
+  line-height: 1.8;
+}
+
+article blockquote:before {
+  content: '\201C';
+  top: 6px;
+  left: 12px;
+  position: absolute;
+  color: #bbb;
+  font-size: 2.4em;
+  line-height: 1;
+  font-family: Georgia, serif;
+  pointer-events: none;
+}
+
+article blockquote:after {
+  content: '\201D';
+  bottom: -6px;
+  right: 12px;
+  position: absolute;
+  color: #bbb;
+  font-size: 2.4em;
+  line-height: 1;
+  font-family: Georgia, serif;
+  pointer-events: none;
+}
