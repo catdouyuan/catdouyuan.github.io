@@ -43,7 +43,7 @@ function initHitokoto() {
   const hitokotoText = document.getElementById('hitokoto_text');
   if (!hitokotoText) return;
 
-  fetch('https://v1.hitokoto.cn?c=a&c=b&c=c&c=d')
+  fetch('https://v1.hitokoto.cn?c=i&c=k&c=d')
     .then(res => res.json())
     .then(data => {
       hitokotoText.innerHTML = `「${data.hitokoto}」<br><span style="font-size: 11px; color: #888; display: block; text-align: right; margin-top: 4px;">—— ${data.from_who ? data.from_who + ' ' : ''}《${data.from}》</span>`;
