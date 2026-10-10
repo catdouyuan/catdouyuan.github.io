@@ -3,7 +3,7 @@
     "title": "catyuan · 技术博客",
     "subtitle": "Talk is cheap. Show me code.",
     "author": "catyuan",
-    "url": "https://catyuan.github.io",
+    "url": "https://catdouyuan.github.io",
     "avatar": "/images/bochirock/ryou.png",
     "background": "/images/background/k-on.jpg",
     "description": "计算机科学与技术 · 学习记录与技术分享。",
@@ -13,28 +13,14 @@
     {
       "name": "GitHub",
       "icon": "icon-github-replace",
-      "url": "https://github.com/catyuan",
+      "url": "https://github.com/catdouyuan",
       "color": "rgb(25, 23, 23)",
       "bg": "rgba(25, 23, 23, .1)"
     },
     {
-      "name": "Bilibili",
-      "icon": "icon-bilibili",
-      "url": "https://space.bilibili.com",
-      "color": "rgb(231, 106, 141)",
-      "bg": "rgba(231, 106, 141, .1)"
-    },
-    {
-      "name": "知乎",
-      "icon": "icon-zhihu",
-      "url": "https://www.zhihu.com",
-      "color": "rgb(30, 136, 229)",
-      "bg": "rgba(30, 136, 229, .1)"
-    },
-    {
       "name": "Mail",
       "icon": "icon-mail-fill",
-      "url": "mailto:catyuan@example.com",
+      "url": "mailto:2331958683@qq.com",
       "color": "rgb(160, 160, 160)",
       "bg": "rgba(160, 160, 160, .1)"
     }
