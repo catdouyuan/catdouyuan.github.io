@@ -1,6 +1,5 @@
 # catyuan · 技术博客 (Nexmoe Style)
 
-纯静态个人技术博客，托管在 GitHub Pages，**无需构建步骤（Zero-Build）**。视觉风格参考 [nantekoto.github.io](https://nantekoto.github.io)（基于 MDUI 的 Nexmoe 二次元卡片美学主题）。
 
 文章采用 Markdown 编写，浏览器端通过 [marked](https://github.com/markedjs/marked) 动态解析，[highlight.js](https://highlightjs.org/) 实现代码高亮。
 
