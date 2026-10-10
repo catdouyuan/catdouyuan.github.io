@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "nexmoefont"; /* Project id 3800417 */
+  src: url('//at.alicdn.com/t/c/font_3800417_2yspzelnviu.woff2?t=1670921425519') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3800417_2yspzelnviu.woff?t=1670921425519') format('woff'),
+       url('//at.alicdn.com/t/c/font_3800417_2yspzelnviu.ttf?t=1670921425519') format('truetype');
+}
+
+.nexmoefont {
+  font-family: "nexmoefont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Niconico_Television:before {
+  content: "\e605";
+}
+
+.icon-bgm38:before {
+  content: "\e604";
+}
+
+.icon-github-replace:before {
+  content: "\e602";
+}
+

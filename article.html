@@ -1,89 +1,236 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" >
-  <title>文章 · catyuan</title>
-  <meta name="description" content="catyuan 的技术文章。" >
-  <link rel="icon" href="assets/img/favicon.png?v=20260926-3" type="image/png" >
-  <link rel="stylesheet" href="assets/css/style.css?v=20260929" >
-  <link id="hljs-light" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css" disabled >
-  <link id="hljs-dark" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>文章阅读 - catyuan · 技术博客</title>
+    <meta name="description" content="计算机科学与技术 · 学习记录与技术分享。">
+    <link rel="shortcut icon" href="/images/background/cangshu.png" type="image/png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/lib/iconfont/social_icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
 </head>
-<body class="theme-dark">
-  <div class="container">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-brand">
-          <a href="index.html" class="logo" aria-label="catyuan 首页">
-            <img src="assets/img/favicon.png" class="logo-mark" alt="catyuan logo" width="32" height="32">
-          </a>
-          <a href="index.html" class="site-title">catyuan · 技术博客</a>
+
+<body class="mdui-drawer-body-left">
+    <!-- Top Hero Background & Mobile AppBar -->
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url('/images/background/k-on.jpg');"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple">
+                    <i class="mdui-icon nexmoefont icon-menu"></i>
+                </a>
+                <div class="mdui-toolbar-spacer"></div>
+                <a href="/about.html" title="catyuan" class="mdui-btn mdui-btn-icon">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
         </div>
+    </div>
 
-        <nav class="nav" aria-label="主导航">
-          <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false">
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-          </button>
-          <ul class="nav-menu" id="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="articles.html" class="nav-link active">文章</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="about.html" class="nav-link">关于</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="feed.xml" class="nav-link">RSS</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <!-- Left Drawer Header (#nexmoe-header) -->
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+            <!-- Avatar -->
+            <div class="nexmoe-avatar mdui-ripple">
+                <a href="/" title="catyuan">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
 
-    <main class="main">
-      <div class="page-layout">
-        <article class="post">
-          <header id="article-header" class="post-header">
-            <h1 class="post-title">正在读取文章…</h1>
-          </header>
-          <div id="article-body" class="post-content">
-            <p class="loading-row">正在读取文章…</p>
-          </div>
-          <footer id="article-footer" class="post-footer"></footer>
-          <nav id="article-nav" class="post-nav" aria-label="文章导航"></nav>
-        </article>
-      </div>
-    </main>
+            <!-- Stats Counts -->
+            <div class="nexmoe-count">
+                <div><span>Articles</span><b id="stat-articles">4</b></div>
+                <div><span>Tags</span><b id="stat-tags">8</b></div>
+                <div><span>Categories</span><b id="stat-categories">4</b></div>
+            </div>
 
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-left">
-          <span class="copyright">© <span data-year>2026</span> catyuan</span>
+            <!-- Nav List -->
+            <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+                    <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+                    <div class="mdui-list-item-content">回到首页</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple true" href="/archive.html" title="文章归档">
+                    <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+                    <div class="mdui-list-item-content">文章归档</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+                    <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+                    <div class="mdui-list-item-content">关于博主</div>
+                </a>
+            </div>
+
+            <!-- Sidebar Widgets -->
+            <aside id="nexmoe-sidebar">
+                <!-- Search -->
+                <div class="nexmoe-widget-wrap">
+                    <div class="nexmoe-widget nexmoe-search">
+                        <form onsubmit="sopen(); return false;">
+                            <label>
+                                <input type="search" placeholder="Search..." onclick="sopen();" readonly>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="nexmoe-widget-wrap">
+                    <div class="nexmoe-widget nexmoe-social" id="sidebar-social"></div>
+                </div>
+
+                <!-- Categories -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Categories</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="category-list" id="sidebar-categories"></ul>
+                    </div>
+                </div>
+
+                <!-- Tag Cloud -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Tags</h3>
+                    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow"></div>
+                </div>
+
+                <!-- Hitokoto 一言 -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">一言</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="hitokoto-box">
+                            <li class="hitokoto-text">
+                                <a href="#" id="hitokoto_text">正在读取一言…</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Archive -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Archive</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="archive-list" id="sidebar-archives"></ul>
+                    </div>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+                    <div class="nexmoe-widget">
+                        <ul id="sidebar-recent"></ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Copyright & Site Time -->
+            <div class="nexmoe-copyright">
+                <span id="busuanzi_container_site_pv">
+                    <span id="busuanzi_value_site_pv"></span> views
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span id="busuanzi_value_site_uv"></span> visitors
+                </span><br>
+                <span id="sitetime"></span><br><br>
+                &copy; 2026 catyuan<br>
+                Powered by <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank" rel="noopener">Nexmoe Style</a>
+            </div>
         </div>
-        <div class="footer-right">
-          <span>保持好奇，持续记录</span>
-          <span><a href="https://github.com/catyuan" target="_blank" rel="noopener">GitHub</a></span>
-        </div>
-      </div>
-      <div class="footer-social">
-        <a href="https://github.com/catyuan" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.57A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="feed.xml" class="social-link" aria-label="RSS">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36zM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
-        </a>
-      </div>
-    </footer>
-  </div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    window.mermaid = mermaid;
-    mermaid.initialize({ startOnLoad: false, theme: 'default' });
-  </script>
-  <script src="assets/js/main.js?v=20260929"></script>
-  <script src="assets/js/article.js?v=20260930"></script>
+    <!-- Main Content Reader (#nexmoe-content) -->
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+                <article>
+                    <!-- Post Cover Banner & H1 Title -->
+                    <div class="nexmoe-post-cover">
+                        <img id="post-cover-img" src="/images/background/k-on.jpg" alt="封面" loading="lazy">
+                        <h1 id="post-title">正在读取文章…</h1>
+                    </div>
+
+                    <!-- Rainbow Meta Information -->
+                    <div class="nexmoe-post-meta">
+                        <div class="nexmoe-rainbow">
+                            <a class="nexmoefont icon-calendar-fill" id="post-date">--</a>
+                            <a class="nexmoefont icon-appstore-fill -link" id="post-category" href="/archive.html">--</a>
+                            <a><i class="nexmoefont icon-areachart"></i><span id="post-words">--</span></a>
+                            <a><i class="nexmoefont icon-time-circle-fill"></i><span id="post-time">--</span></a>
+                        </div>
+                    </div>
+
+                    <!-- Article Body Content -->
+                    <div id="article-body">
+                        <p style="padding: 40px; text-align: center; color: #999;">正在解析文章正文…</p>
+                    </div>
+                </article>
+
+                <!-- Post Copyright Notice -->
+                <div class="nexmoe-post-copyright">
+                    <strong>Author: </strong>catyuan<br>
+                    <strong>Link: </strong><a id="copyright-link" href="#" target="_blank" rel="noopener"></a><br>
+                    <strong>Copyright: </strong><a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 3.0 CN</a>
+                </div>
+
+                <!-- Post Tags -->
+                <div class="nexmoe-post-meta nexmoe-rainbow" id="post-tags-list"></div>
+
+                <!-- Previous / Next Navigation -->
+                <div id="article-nav" style="margin-top: 25px; margin-bottom: 25px; display: flex; justify-content: space-between;"></div>
+
+                <!-- Waline Comments -->
+                <div id="waline"></div>
+            </div>
+
+            <!-- Right Floating Tools (TOC & Top) -->
+            <div class="nexmoe-post-right">
+                <div class="nexmoe-fixed">
+                    <div class="nexmoe-tool">
+                        <!-- Floating TOC Button -->
+                        <button class="mdui-fab catalog" style="overflow:unset;" title="目录">
+                            <i class="nexmoefont icon-i-catalog"></i>
+                            <div class="nexmoe-toc" id="toc-container">
+                                <ol class="toc" id="toc-list"></ol>
+                            </div>
+                        </button>
+                        <!-- Back to Top Button -->
+                        <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top">
+                            <button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal Overlay (#nexmoe-search-space) -->
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" id="search_input_modal" type="text" placeholder="输入关键字搜索文章..." oninput="sinput();" autocomplete="off">
+                </div>
+                <a class="search-close" onclick="sclose();">&times;</a>
+            </div>
+            <div class="search-body" id="search_results_modal"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/lib/mdui_043tiny/mdui.js"></script>
+    <script src="/lib/fancybox/fancybox.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/article.js"></script>
 </body>
+
 </html>

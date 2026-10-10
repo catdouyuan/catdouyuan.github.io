@@ -1,75 +1,104 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" >
-  <title>404 · catyuan</title>
-  <meta name="description" content="页面不存在。" >
-  <link rel="icon" href="assets/img/favicon.png?v=20260926-3" type="image/png" >
-  <link rel="stylesheet" href="assets/css/style.css?v=20260929" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>404 - 找不到页面 · catyuan</title>
+    <meta name="description" content="页面走丢了。">
+    <link rel="shortcut icon" href="/images/background/cangshu.png" type="image/png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/lib/iconfont/social_icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
-<body class="theme-dark">
-  <div class="container">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-brand">
-          <a href="index.html" class="logo" aria-label="catyuan 首页">
-            <img src="assets/img/favicon.png" class="logo-mark" alt="catyuan logo" width="32" height="32">
-          </a>
-          <a href="index.html" class="site-title">catyuan · 技术博客</a>
+
+<body class="mdui-drawer-body-left">
+    <!-- Top Hero Background & Mobile AppBar -->
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url('/images/background/k-on.jpg');"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple">
+                    <i class="mdui-icon nexmoefont icon-menu"></i>
+                </a>
+                <div class="mdui-toolbar-spacer"></div>
+                <a href="/about.html" title="catyuan" class="mdui-btn mdui-btn-icon">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
         </div>
+    </div>
 
-        <nav class="nav" aria-label="主导航">
-          <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false">
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-            <span class="nav-toggle-bar"></span>
-          </button>
-          <ul class="nav-menu" id="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="articles.html" class="nav-link">文章</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="about.html" class="nav-link">关于</a></li>
-            <li class="nav-divider" aria-hidden="true">|</li>
-            <li class="nav-item"><a href="feed.xml" class="nav-link">RSS</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <!-- Left Drawer Header (#nexmoe-header) -->
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+            <div class="nexmoe-avatar mdui-ripple">
+                <a href="/" title="catyuan">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
 
-    <main class="main">
-      <div class="page-layout">
-        <section class="error-page">
-          <div class="error-code">404</div>
-          <h1 class="error-title">页面走丢了。</h1>
-          <p class="error-description">这个地址可能已经移动或删除，可以返回首页继续浏览。</p>
-          <a href="index.html" class="error-link">返回首页</a>
-        </section>
-      </div>
-    </main>
+            <div class="nexmoe-count">
+                <div><span>Articles</span><b id="stat-articles">4</b></div>
+                <div><span>Tags</span><b id="stat-tags">8</b></div>
+                <div><span>Categories</span><b id="stat-categories">4</b></div>
+            </div>
 
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-left">
-          <span class="copyright">© <span data-year>2026</span> catyuan</span>
+            <div class="nexmoe-list mdui-list">
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+                    <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+                    <div class="mdui-list-item-content">回到首页</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+                    <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+                    <div class="mdui-list-item-content">文章归档</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+                    <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+                    <div class="mdui-list-item-content">关于博主</div>
+                </a>
+            </div>
+
+            <aside id="nexmoe-sidebar">
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">一言</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="hitokoto-box">
+                            <li class="hitokoto-text">
+                                <a href="#" id="hitokoto_text">正在读取一言…</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="nexmoe-copyright">
+                <span id="sitetime"></span><br><br>
+                &copy; 2026 catyuan<br>
+                Powered by <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank" rel="noopener">Nexmoe Style</a>
+            </div>
         </div>
-        <div class="footer-right">
-          <span>保持好奇，持续记录</span>
-          <span><a href="https://github.com/catyuan" target="_blank" rel="noopener">GitHub</a></span>
-        </div>
-      </div>
-      <div class="footer-social">
-        <a href="https://github.com/catyuan" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.57A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="feed.xml" class="social-link" aria-label="RSS">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36zM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
-        </a>
-      </div>
-    </footer>
-  </div>
+    </div>
 
-  <script src="assets/js/main.js?v=20260929"></script>
+    <!-- Main Content Reader (#nexmoe-content) -->
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post" style="padding: 60px 20px; text-align: center;">
+                <h1 style="font-size: 72px; color: var(--color-primary); margin: 0;">404</h1>
+                <h2 style="font-size: 24px; color: #333; margin-top: 10px;">页面走丢了~</h2>
+                <p style="color: #666; max-width: 400px; margin: 15px auto;">这个地址可能已被移动或删除，请返回首页继续浏览。</p>
+                <a class="mdui-btn mdui-btn-raised mdui-ripple" href="/" style="background: var(--color-primary); color: #fff; border-radius: 20px; margin-top: 20px; padding: 0 28px;">返回首页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/lib/mdui_043tiny/mdui.js"></script>
+    <script src="/js/app.js"></script>
 </body>
+
 </html>

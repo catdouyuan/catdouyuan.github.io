@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>文章归档 - catyuan · 技术博客</title>
+    <meta name="description" content="按标签、分类与年份时光机查看所有技术文章。">
+    <link rel="shortcut icon" href="/images/background/cangshu.png" type="image/png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+    <link rel="stylesheet" href="/lib/iconfont/social_icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+
+<body class="mdui-drawer-body-left">
+    <!-- Top Hero Background & Mobile AppBar -->
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url('/images/background/k-on.jpg');"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple">
+                    <i class="mdui-icon nexmoefont icon-menu"></i>
+                </a>
+                <div class="mdui-toolbar-spacer"></div>
+                <a href="/about.html" title="catyuan" class="mdui-btn mdui-btn-icon">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left Drawer Header (#nexmoe-header) -->
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+            <!-- Avatar -->
+            <div class="nexmoe-avatar mdui-ripple">
+                <a href="/" title="catyuan">
+                    <img src="/images/bochirock/ryou.png" alt="catyuan">
+                </a>
+            </div>
+
+            <!-- Stats Counts -->
+            <div class="nexmoe-count">
+                <div><span>Articles</span><b id="stat-articles">4</b></div>
+                <div><span>Tags</span><b id="stat-tags">8</b></div>
+                <div><span>Categories</span><b id="stat-categories">4</b></div>
+            </div>
+
+            <!-- Nav List -->
+            <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+                    <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+                    <div class="mdui-list-item-content">回到首页</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple true" href="/archive.html" title="文章归档">
+                    <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+                    <div class="mdui-list-item-content">文章归档</div>
+                </a>
+                <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+                    <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+                    <div class="mdui-list-item-content">关于博主</div>
+                </a>
+            </div>
+
+            <!-- Sidebar Widgets -->
+            <aside id="nexmoe-sidebar">
+                <!-- Search -->
+                <div class="nexmoe-widget-wrap">
+                    <div class="nexmoe-widget nexmoe-search">
+                        <form onsubmit="sopen(); return false;">
+                            <label>
+                                <input type="search" placeholder="Search..." onclick="sopen();" readonly>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="nexmoe-widget-wrap">
+                    <div class="nexmoe-widget nexmoe-social" id="sidebar-social"></div>
+                </div>
+
+                <!-- Categories -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Categories</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="category-list" id="sidebar-categories"></ul>
+                    </div>
+                </div>
+
+                <!-- Tag Cloud -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Tags</h3>
+                    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow"></div>
+                </div>
+
+                <!-- Hitokoto 一言 -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">一言</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="hitokoto-box">
+                            <li class="hitokoto-text">
+                                <a href="#" id="hitokoto_text">正在读取一言…</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Archive -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Archive</h3>
+                    <div class="nexmoe-widget">
+                        <ul class="archive-list" id="sidebar-archives"></ul>
+                    </div>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="nexmoe-widget-wrap">
+                    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+                    <div class="nexmoe-widget">
+                        <ul id="sidebar-recent"></ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Copyright & Site Time -->
+            <div class="nexmoe-copyright">
+                <span id="busuanzi_container_site_pv">
+                    <span id="busuanzi_value_site_pv"></span> views
+                </span>
+                <span id="busuanzi_container_site_uv">
+                    <span id="busuanzi_value_site_uv"></span> visitors
+                </span><br>
+                <span id="sitetime"></span><br><br>
+                &copy; 2026 catyuan<br>
+                Powered by <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank" rel="noopener">Nexmoe Style</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Reader (#nexmoe-content) -->
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <section class="nexmoe-archives">
+                <h1 style="margin-top: 0; margin-bottom: 24px; font-size: 24px;">文章归档</h1>
+
+                <!-- All Tags Cloud -->
+                <div class="tagcloud nexmoe-rainbow" id="archive-tagcloud"></div>
+
+                <!-- Category Big Image Cards -->
+                <div class="categories nexmoe-rainbow-fill" id="archive-categories"></div>
+
+                <!-- Timeline List Grouped by Year -->
+                <article id="archive-timeline">
+                    <div style="padding: 30px; text-align: center; color: #999;">正在加载归档…</div>
+                </article>
+            </section>
+
+            <!-- Right Floating Tools -->
+            <div class="nexmoe-post-right">
+                <div class="nexmoe-fixed">
+                    <div class="nexmoe-tool">
+                        <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top">
+                            <button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal Overlay (#nexmoe-search-space) -->
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" id="search_input_modal" type="text" placeholder="输入关键字搜索文章..." oninput="sinput();" autocomplete="off">
+                </div>
+                <a class="search-close" onclick="sclose();">&times;</a>
+            </div>
+            <div class="search-body" id="search_results_modal"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/lib/mdui_043tiny/mdui.js"></script>
+    <script src="/lib/fancybox/fancybox.umd.js"></script>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await loadBlogData();
+            if (!data || !data.articles) return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterTag = urlParams.get('tag');
+            const filterCat = urlParams.get('cat');
+            const filterYear = urlParams.get('year');
+
+            let filteredArticles = data.articles;
+            if (filterTag) {
+                filteredArticles = filteredArticles.filter(a => (a.tags || []).includes(filterTag));
+            } else if (filterCat) {
+                filteredArticles = filteredArticles.filter(a => a.category === filterCat);
+            } else if (filterYear) {
+                filteredArticles = filteredArticles.filter(a => (a.date || '').startsWith(filterYear));
+            }
+
+            // 1. Tag Cloud
+            const tagMap = {};
+            data.articles.forEach(a => {
+                (a.tags || []).forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; });
+            });
+            const tagCloudEl = document.getElementById('archive-tagcloud');
+            let tagCloudHtml = '';
+            Object.keys(tagMap).forEach(t => {
+                const isActive = filterTag === t ? 'style="border: 2px solid var(--color-primary);"' : '';
+                tagCloudHtml += `<a class="mdui-ripple -unordered list-link" href="/archive.html?tag=${encodeURIComponent(t)}" ${isActive}>${t}<span>${tagMap[t]}</span></a>`;
+            });
+            tagCloudEl.innerHTML = tagCloudHtml;
+
+            // 2. Category Cards
+            const catMap = {};
+            const catCoverMap = {
+                '避坑指南': '/images/post/development_tool.jpg',
+                '网络与性能': '/images/post/internet.jpg',
+                '前端基础': '/images/post/JavaScript.jpg',
+                '博客搭建': '/images/post/markerdown.jpg'
+            };
+            data.articles.forEach(a => {
+                if (a.category) {
+                    catMap[a.category] = (catMap[a.category] || 0) + 1;
+                    if (a.cover && !catCoverMap[a.category]) catCoverMap[a.category] = a.cover;
+                }
+            });
+            const catCardsEl = document.getElementById('archive-categories');
+            let catCardsHtml = '';
+            Object.keys(catMap).forEach(cat => {
+                const bg = catCoverMap[cat] || '/images/background/k-on.jpg';
+                catCardsHtml += `
+                <a class="mdui-ripple" href="/archive.html?cat=${encodeURIComponent(cat)}">
+                    <div class="bg" style="background-image:url(${bg})"></div>
+                    <h1>${cat}<span>${catMap[cat]}</span></h1>
+                </a>`;
+            });
+            catCardsEl.innerHTML = catCardsHtml;
+
+            // 3. Timeline
+            const yearGroups = {};
+            filteredArticles.forEach(a => {
+                const yr = (a.date || '2026').slice(0, 4);
+                if (!yearGroups[yr]) yearGroups[yr] = [];
+                yearGroups[yr].push(a);
+            });
+
+            const timelineEl = document.getElementById('archive-timeline');
+            let timelineHtml = '';
+            if (filterTag || filterCat || filterYear) {
+                timelineHtml += `<div style="margin-bottom: 20px; font-size: 15px; color: var(--color-primary);">正在展示筛选结果：${filterTag ? '标签 #' + filterTag : ''} ${filterCat ? '分类 【' + filterCat + '】' : ''} ${filterYear ? '年份 ' + filterYear : ''} <a href="/archive.html" style="margin-left: 10px; font-size: 13px; color: #666;">[清除筛选]</a></div>`;
+            }
+
+            const sortedYears = Object.keys(yearGroups).sort((a, b) => b.localeCompare(a));
+            if (!sortedYears.length) {
+                timelineHtml += '<p style="text-align: center; color: #999;">没有找到匹配的文章</p>';
+            } else {
+                sortedYears.forEach(yr => {
+                    timelineHtml += `<h2>${yr}</h2><ul>`;
+                    yearGroups[yr].forEach(art => {
+                        const monthDay = (art.date || '').slice(5) || '--';
+                        timelineHtml += `
+                        <li>
+                            <span style="display: inline-block; width: 60px; color: #999;">${monthDay}</span>
+                            <a href="/article.html?slug=${encodeURIComponent(art.slug)}">${art.title}</a>
+                        </li>`;
+                    });
+                    timelineHtml += `</ul>`;
+                });
+            }
+
+            timelineEl.innerHTML = timelineHtml;
+            if (window.mdui && mdui.mutation) mdui.mutation();
+        });
+    </script>
+</body>
+
+</html>
