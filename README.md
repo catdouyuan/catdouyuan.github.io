@@ -45,10 +45,10 @@
 │   ├── mdui_043tiny/   # MDUI 框架
 │   ├── fancybox/       # Fancybox 图片灯箱库
 │   └── iconfont/       # Nexmoe 图标与社交图标库
-└── images/
-    ├── background/     # 背景横幅与 Favicon
-    ├── bochirock/      # 头像素材
-    └── post/           # 预置分类大图封面
+├── images/
+│   ├── avatar.png      # 博客头像
+│   ├── background/     # 背景横幅
+│   └── post/           # 文章封面
 ```
 
 ---
@@ -63,14 +63,14 @@
   "slug": "your-slug",
   "title": "文章标题",
   "date": "2026-10-10",
-  "category": "后端架构",
-  "cover": "/images/post/java.jpg",
+  "category": "踩坑指南",
+  "cover": "/images/post/development_tool.jpg",
   "summary": "一句话核心摘要，用于首页卡片和站内即时搜索。",
-  "tags": ["Java", "架构", "性能优化"]
+  "tags": ["踩坑指南"]
 }
 ```
 
-> **封面图说明**：可使用 `images/post/` 下预置的主题封面（如 `java.jpg`, `JavaScript.jpg`, `algorithm.jpg`, `internet.jpg`, `development_tool.jpg`, `markerdown.jpg` 等），也可以填写任意外部图片 URL。若未填写，将自动使用默认封面。
+> **封面图说明**：可使用 `images/post/` 下的封面（如 `development_tool.jpg`, `markerdown.jpg`），也可以填写任意外部图片 URL。若未填写，将自动使用默认封面。
 
 3. （可选）将新文章同步添加到 `feed.xml` 与 `sitemap.xml`。
 4. 提交并推送到 `main` 分支，GitHub Pages 自动完成发布！
