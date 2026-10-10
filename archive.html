@@ -20,7 +20,7 @@
 <body class="mdui-drawer-body-left">
     <!-- Top Hero Background & Mobile AppBar -->
     <div id="nexmoe-background">
-        <div class="nexmoe-bg" style="background-image: url('/images/background/k-on.jpg');"></div>
+        <div class="nexmoe-bg" style="background-image: url('/images/background/back.jpg');"></div>
         <div class="mdui-appbar mdui-shadow-0">
             <div class="mdui-toolbar">
                 <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple">
@@ -276,7 +276,7 @@
                 });
                 let catCardsHtml = '<div class="categories nexmoe-rainbow-fill">';
                 Object.keys(catMap).forEach(cat => {
-                    const bg = catCoverMap[cat] || '/images/background/k-on.jpg';
+                    const bg = catCoverMap[cat] || '/images/background/back.jpg';
                     catCardsHtml += `
                     <a class="mdui-ripple" href="/archive.html?cat=${encodeURIComponent(cat)}">
                         <div class="bg" style="background-image:url(${bg})"></div>

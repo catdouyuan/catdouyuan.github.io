@@ -41,7 +41,7 @@
   // Set Post Header & Metadata
   if (titleEl) titleEl.innerText = article.title;
   if (coverImg) {
-    coverImg.src = article.cover || '/images/background/k-on.jpg';
+    coverImg.src = article.cover || '/images/background/back.jpg';
     coverImg.alt = article.title;
   }
   if (dateEl) dateEl.innerText = formatDate(article.date);
