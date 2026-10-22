@@ -34,7 +34,9 @@
 ├── .nojekyll           # 跳过 GitHub Pages Jekyll 处理
 ├── articles/
 │   ├── index.json      # 文章清单（标题、日期、分类、封面、摘要、标签）
-│   └── *.md            # Markdown 正文
+│   ├── 踩坑指南/        # 按分类命名的文件夹，便于归类与查找文章
+│   │   └── *.md
+│   └── [其它分类]/     # 如 前端开发/、学习笔记/ 等（支持子目录归类）
 ├── css/
 │   ├── style.css       # Nexmoe 核心样式
 │   └── custom.css      # 个性化定制与增强样式
@@ -55,12 +57,13 @@
 
 ## ✍️ 新增一篇文章
 
-1. 在 `articles/` 目录下新建 `your-slug.md`。
+1. 在 `articles/<分类名称>/` 目录下新建 `your-slug.md`（若对应分类文件夹不存在，直接新建即可；也兼容直接放在 `articles/` 根目录）。
 2. 在 `articles/index.json` 的 `articles` 数组顶部添加元数据：
 
 ```json
 {
   "slug": "your-slug",
+  "path": "踩坑指南/your-slug.md",
   "title": "文章标题",
   "date": "2026-10-10",
   "category": "踩坑指南",
@@ -70,7 +73,11 @@
 }
 ```
 
-> **封面图说明**：可使用 `images/post/` 下的封面（如 `development_tool.jpg`, `markerdown.jpg`），也可以填写任意外部图片 URL。若未填写，将自动使用默认封面。
+> **分类路径说明**：
+> - 系统已支持智能定位：如果设置了 `category: "踩坑指南"`，系统会自动优先读取 `articles/踩坑指南/your-slug.md`。
+> - 也可通过 `path` 字段显式指定相对 `articles/` 的路径（如 `"path": "踩坑指南/your-slug.md"`）。
+> - 自动兼容回退：若在分类目录下未找到，系统会自动回退到 `articles/your-slug.md` 尝试加载。
+> - **封面图说明**：可使用 `images/post/` 下的封面（如 `development_tool.jpg`, `markerdown.jpg`），也可以填写任意外部图片 URL。若未填写，将自动使用默认封面。
 
 3. （可选）将新文章同步添加到 `feed.xml` 与 `sitemap.xml`。
 4. 提交并推送到 `main` 分支，GitHub Pages 自动完成发布！

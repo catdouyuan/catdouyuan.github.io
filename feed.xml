@@ -5,8 +5,16 @@
     <link>https://catdouyuan.github.io/</link>
     <description>计算机科学与技术 · 学习记录与技术分享。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 27 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://catdouyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GlazeWM + Zebar 使用分享：Windows 上也能有平铺窗口管理</title>
+      <link>https://catdouyuan.github.io/article.html?slug=glazewm-zebar-windows-tiling</link>
+      <guid isPermaLink="false">glazewm-zebar-windows-tiling</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
+      <description>厌倦了 Windows 上繁琐的手动窗口拖拽分屏？本文分享平铺式窗口管理器 GlazeWM 与现代化状态栏 Zebar 的深度配置与上手体验，涵盖核心快捷键、配置文件精细调优及常见避坑指南，助你打造纯键盘驱动的高效桌面工作流。</description>
+      <category>好物推荐</category>
+    </item>
     <item>
       <title>Antigravity 登录踩坑指南</title>
       <link>https://catdouyuan.github.io/article.html?slug=antigravity-login-stuck</link>

@@ -27,7 +27,25 @@
   ],
   "articles": [
     {
+      "slug": "glazewm-zebar-windows-tiling",
+      "path": "好物推荐/glazewm-zebar-windows-tiling.md",
+      "title": "GlazeWM + Zebar 使用分享：Windows 上也能有平铺窗口管理",
+      "date": "2026-10-22",
+      "category": "好物推荐",
+      "cover": "/images/post/glazewm.jpg",
+      "summary": "厌倦了 Windows 上繁琐的手动窗口拖拽分屏？本文分享平铺式窗口管理器 GlazeWM 与现代化状态栏 Zebar 的深度配置与上手体验，涵盖核心快捷键、配置文件精细调优及常见避坑指南，助你打造纯键盘驱动的高效桌面工作流。",
+      "words": 2391,
+      "readingMinutes": 7,
+      "tags": [
+        "好物推荐",
+        "效率工具",
+        "Windows",
+        "GlazeWM"
+      ]
+    },
+    {
       "slug": "antigravity-login-stuck",
+      "path": "踩坑指南/antigravity-login-stuck.md",
       "title": "Antigravity 登录踩坑指南",
       "date": "2026-09-27",
       "category": "踩坑指南",

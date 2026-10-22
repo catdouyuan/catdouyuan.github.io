@@ -63,10 +63,45 @@
     tagsListEl.innerHTML = tagHtml;
   }
 
-  // Fetch Markdown content
+  // Fetch Markdown content (supports category subfolder, custom path, or root articles/ directory)
   try {
-    const mdRes = await fetch(`/articles/${encodeURIComponent(slug)}.md`);
-    if (!mdRes.ok) throw new Error(`HTTP ${mdRes.status}`);
+    const candidatePaths = [];
+
+    // 1. Explicit path in index.json if provided
+    if (article.path) {
+      const cleanPath = article.path.startsWith('/') ? article.path.slice(1) : article.path;
+      candidatePaths.push(`/articles/${cleanPath.split('/').map(encodeURIComponent).join('/')}`);
+    }
+
+    // 2. Category subfolder: /articles/{category}/{slug}.md
+    if (article.category) {
+      candidatePaths.push(`/articles/${encodeURIComponent(article.category)}/${encodeURIComponent(slug)}.md`);
+    }
+
+    // 3. Fallback to root articles directory: /articles/{slug}.md
+    candidatePaths.push(`/articles/${encodeURIComponent(slug)}.md`);
+
+    let mdRes = null;
+    let lastStatus = 404;
+
+    for (const path of candidatePaths) {
+      try {
+        const res = await fetch(path);
+        if (res.ok) {
+          mdRes = res;
+          break;
+        } else {
+          lastStatus = res.status;
+        }
+      } catch (err) {
+        console.warn(`Failed to fetch article from ${path}:`, err);
+      }
+    }
+
+    if (!mdRes) {
+      throw new Error(`HTTP ${lastStatus} (未能从候选路径加载文章正文)`);
+    }
+
     const mdText = await mdRes.text();
 
     // Word count & Reading time
