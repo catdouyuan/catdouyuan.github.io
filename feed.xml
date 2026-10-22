@@ -8,6 +8,14 @@
     <lastBuildDate>Thu, 22 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://catdouyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>WorkBuddy2API Panel：将腾讯 WorkBuddy 转化为 OpenAI 兼容 API 的多账号网关神器</title>
+      <link>https://catdouyuan.github.io/article.html?slug=workbuddy2api-panel</link>
+      <guid isPermaLink="false">workbuddy2api-panel</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
+      <description>将腾讯 WorkBuddy 账号包装为标准 OpenAI 兼容接口，内置优雅的 Web 控制面板与任务中心。本文详解 Windows 单可执行文件极速部署、实测 21MB 超低内存常驻、客户端接入指南，并深入分析下午时段限流原因与合规使用免责声明。</description>
+      <category>好物推荐</category>
+    </item>
+    <item>
       <title>GlazeWM + Zebar 使用分享：Windows 上也能有平铺窗口管理</title>
       <link>https://catdouyuan.github.io/article.html?slug=glazewm-zebar-windows-tiling</link>
       <guid isPermaLink="false">glazewm-zebar-windows-tiling</guid>

@@ -27,6 +27,24 @@
   ],
   "articles": [
     {
+      "slug": "workbuddy2api-panel",
+      "path": "好物推荐/workbuddy2api-panel.md",
+      "title": "WorkBuddy2API Panel：将腾讯 WorkBuddy 转化为 OpenAI 兼容 API 的多账号网关神器",
+      "date": "2026-10-22",
+      "category": "好物推荐",
+      "cover": "/images/post/workbuddy2api.jpg",
+      "summary": "将腾讯 WorkBuddy 账号包装为标准 OpenAI 兼容接口，内置优雅的 Web 控制面板与任务中心。本文详解 Windows 单可执行文件极速部署、实测 21MB 超低内存常驻、客户端接入指南，并深入分析下午时段限流原因与合规使用免责声明。",
+      "words": 2580,
+      "readingMinutes": 6,
+      "tags": [
+        "好物推荐",
+        "开源工具",
+        "API网关",
+        "WorkBuddy",
+        "AI"
+      ]
+    },
+    {
       "slug": "glazewm-zebar-windows-tiling",
       "path": "好物推荐/glazewm-zebar-windows-tiling.md",
       "title": "GlazeWM + Zebar 使用分享：Windows 上也能有平铺窗口管理",
