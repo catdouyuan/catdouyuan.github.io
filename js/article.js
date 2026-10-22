@@ -116,6 +116,39 @@
       bodyEl.innerText = mdText;
     }
 
+    // Render GitHub-style Markdown Alerts: [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION]
+    const alertMeta = {
+      note: { title: 'Note', icon: 'ℹ️' },
+      tip: { title: 'Tip', icon: '💡' },
+      important: { title: 'Important', icon: '📌' },
+      warning: { title: 'Warning', icon: '⚠️' },
+      caution: { title: 'Caution', icon: '🛑' }
+    };
+
+    bodyEl.querySelectorAll('blockquote').forEach(bq => {
+      const firstP = bq.querySelector('p');
+      if (!firstP) return;
+      const rawText = firstP.innerHTML.trim();
+      const match = rawText.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
+      if (match) {
+        const type = match[1].toLowerCase();
+        const meta = alertMeta[type] || { title: match[1], icon: 'ℹ️' };
+        bq.classList.add('markdown-alert', `markdown-alert-${type}`);
+
+        const remaining = rawText.replace(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(<br\s*\/?>)?/i, '').trim();
+        if (remaining) {
+          firstP.innerHTML = remaining;
+        } else {
+          firstP.remove();
+        }
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'markdown-alert-title';
+        titleDiv.innerHTML = `<span class="alert-icon">${meta.icon}</span><span class="alert-text">${meta.title}</span>`;
+        bq.insertBefore(titleDiv, bq.firstChild);
+      }
+    });
+
     // Render Mermaid Diagrams
     if (window.mermaid) {
       try {

@@ -202,6 +202,58 @@ article blockquote:after {
   pointer-events: none;
 }
 
+/* GitHub Flavored Markdown Alerts (Callout Boxes) */
+article blockquote.markdown-alert {
+  padding: 16px 20px 16px 20px;
+  border-left: 4px solid var(--alert-color, #0969da);
+  background: var(--alert-bg, rgba(9, 105, 218, 0.05));
+  border-radius: 8px;
+  margin: 24px 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Clear the decorative giant quotation marks on alert boxes */
+article blockquote.markdown-alert:before,
+article blockquote.markdown-alert:after {
+  display: none !important;
+}
+
+article blockquote.markdown-alert-note {
+  --alert-color: #0969da;
+  --alert-bg: rgba(9, 105, 218, 0.05);
+}
+article blockquote.markdown-alert-tip {
+  --alert-color: #1a7f37;
+  --alert-bg: rgba(26, 127, 55, 0.05);
+}
+article blockquote.markdown-alert-important {
+  --alert-color: #8250df;
+  --alert-bg: rgba(130, 80, 223, 0.05);
+}
+article blockquote.markdown-alert-warning {
+  --alert-color: #d97706;
+  --alert-bg: rgba(217, 119, 6, 0.06);
+}
+article blockquote.markdown-alert-caution {
+  --alert-color: #ef4444;
+  --alert-bg: rgba(239, 68, 68, 0.06);
+}
+
+.markdown-alert-title {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--alert-color);
+  letter-spacing: 0.5px;
+}
+
+.markdown-alert-title .alert-icon {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
 /* Mermaid Sequence & Diagram Container */
 .mermaid {
   display: flex;
