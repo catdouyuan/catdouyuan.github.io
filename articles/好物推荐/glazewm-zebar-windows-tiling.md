@@ -29,7 +29,7 @@
 
 推荐使用 Windows 官方包管理器 `winget` 极速安装，开箱即用：
 
-```powershell
+```shell
 # 一键安装 GlazeWM 与配套状态栏 Zebar
 winget install glzr-io.glazewm
 winget install glzr-io.zebar
@@ -155,11 +155,6 @@ gaps:
 
 > **小技巧**：在 PowerShell 中执行 `where.exe git` 即可迅速获取你的 Git 安装真实根路径。
 
-### 5. 习惯了使用“显示桌面”，但在平铺管理器下如何快速看壁纸？
-
-GlazeWM 本身没有独立封装专用的“清屏”指令，但它与 Windows 原生系统指令完全共存：
-- 按 <kbd>Win</kbd> + <kbd>D</kbd>：全局瞬间最小化并露出桌面，再次按下恢复全部原貌。
-- 按住 <kbd>Win</kbd> + <kbd>,</kbd>（逗号）：偷看桌面（Peek at desktop），松开键盘瞬间自动还原。
 
 ### 6. 修改了 YAML 配置，页面没有立即发生变化？
 
