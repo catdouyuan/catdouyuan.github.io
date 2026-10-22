@@ -195,7 +195,8 @@ async function initSidebar() {
   if (socialEl && data.social) {
     let socHtml = '';
     data.social.forEach(s => {
-      socHtml += `<a class="mdui-ripple" href="${s.url}" target="_blank" rel="noopener" mdui-tooltip="{content: '${s.name}'}" style="color: ${s.color}; background-color: ${s.bg};">
+      const slugClass = (s.name || '').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      socHtml += `<a class="mdui-ripple social-icon-link social-${slugClass}" href="${s.url}" target="_blank" rel="noopener" mdui-tooltip="{content: '${s.name}'}" style="color: ${s.color}; background-color: ${s.bg};">
         <i class="nexmoefont ${s.icon}"></i>
       </a>`;
     });

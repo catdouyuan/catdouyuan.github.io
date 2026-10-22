@@ -128,6 +128,40 @@
   #nexmoe-header .nexmoe-search input {
     color: var(--c-text-primary) !important;
   }
+  /* High contrast social icons in dark mode */
+  #nexmoe-header .nexmoe-social a.social-github,
+  #nexmoe-header .nexmoe-social a[href*="github.com"],
+  #nexmoe-header .nexmoe-social a:has(.icon-github-replace),
+  #nexmoe-header .nexmoe-social a:has(.icon-github) {
+    color: #f0f6fc !important;
+    background-color: rgba(255, 255, 255, 0.16) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+  #nexmoe-header .nexmoe-social a.social-github i,
+  #nexmoe-header .nexmoe-social a[href*="github.com"] i {
+    color: #f0f6fc !important;
+  }
+  #nexmoe-header .nexmoe-social a.social-github:hover,
+  #nexmoe-header .nexmoe-social a[href*="github.com"]:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.28) !important;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.25) !important;
+  }
+  #nexmoe-header .nexmoe-social a.social-mail,
+  #nexmoe-header .nexmoe-social a[href*="mailto:"] {
+    color: #e6edf3 !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  #nexmoe-header .nexmoe-social a.social-mail i,
+  #nexmoe-header .nexmoe-social a[href*="mailto:"] i {
+    color: #e6edf3 !important;
+  }
+  #nexmoe-header .nexmoe-social a.social-mail:hover,
+  #nexmoe-header .nexmoe-social a[href*="mailto:"]:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.22) !important;
+  }
   #nexmoe-content .nexmoe-post .nexmoe-post-copyright {
     background-color: var(--c-quote-bg) !important;
     color: var(--c-text-secondary) !important;
@@ -281,6 +315,59 @@ body.mdui-theme-layout-dark #nexmoe-header .nexmoe-search input {
   color: var(--c-text-primary) !important;
 }
 
+body.dark #nexmoe-header .nexmoe-social a.social-github,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-github,
+body.dark #nexmoe-header .nexmoe-social a[href*="github.com"],
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="github.com"],
+body.dark #nexmoe-header .nexmoe-social a:has(.icon-github-replace),
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a:has(.icon-github-replace),
+body.dark #nexmoe-header .nexmoe-social a:has(.icon-github),
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a:has(.icon-github) {
+  color: #f0f6fc !important;
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark #nexmoe-header .nexmoe-social a.social-github i,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-github i,
+body.dark #nexmoe-header .nexmoe-social a[href*="github.com"] i,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="github.com"] i {
+  color: #f0f6fc !important;
+}
+
+body.dark #nexmoe-header .nexmoe-social a.social-github:hover,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-github:hover,
+body.dark #nexmoe-header .nexmoe-social a[href*="github.com"]:hover,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="github.com"]:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25) !important;
+}
+
+body.dark #nexmoe-header .nexmoe-social a.social-mail,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-mail,
+body.dark #nexmoe-header .nexmoe-social a[href*="mailto:"],
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="mailto:"] {
+  color: #e6edf3 !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark #nexmoe-header .nexmoe-social a.social-mail i,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-mail i,
+body.dark #nexmoe-header .nexmoe-social a[href*="mailto:"] i,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="mailto:"] i {
+  color: #e6edf3 !important;
+}
+
+body.dark #nexmoe-header .nexmoe-social a.social-mail:hover,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a.social-mail:hover,
+body.dark #nexmoe-header .nexmoe-social a[href*="mailto:"]:hover,
+body.mdui-theme-layout-dark #nexmoe-header .nexmoe-social a[href*="mailto:"]:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.22) !important;
+}
+
 body.dark #nexmoe-content .nexmoe-post .nexmoe-post-copyright,
 body.mdui-theme-layout-dark #nexmoe-content .nexmoe-post .nexmoe-post-copyright {
   background-color: var(--c-quote-bg) !important;
@@ -414,6 +501,38 @@ article code:not(pre code) {
   font-size: 85%;
   font-family: Consolas, "Fira Code", Monaco, monospace;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Sidebar Social Links Base Styling */
+#nexmoe-header .nexmoe-social {
+  padding: 14px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+#nexmoe-header .nexmoe-social a {
+  width: 42px;
+  height: 42px;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% !important;
+  transition: all 0.22s ease !important;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+#nexmoe-header .nexmoe-social a i {
+  font-size: 20px !important;
+  line-height: 1;
+}
+
+#nexmoe-header .nexmoe-social a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Card rounded and shadow enhancements */
