@@ -145,8 +145,22 @@
 
     // Code Highlighting
     if (window.hljs) {
+      // Fallback aliases for powershell if the external language module failed to load
+      try {
+        if (!window.hljs.getLanguage('powershell') && window.hljs.getLanguage('shell')) {
+          window.hljs.registerAliases(['powershell', 'ps1', 'pwsh'], { languageName: 'shell' });
+        }
+      } catch (err) {
+        console.warn('Language alias registration skipped:', err);
+      }
+
       bodyEl.querySelectorAll('pre code').forEach(block => {
-        window.hljs.highlightElement(block);
+        block.classList.add('hljs');
+        try {
+          window.hljs.highlightElement(block);
+        } catch (e) {
+          console.warn('highlight.js error:', e);
+        }
       });
     }
 

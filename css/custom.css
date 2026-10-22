@@ -31,6 +31,22 @@ body {
   color: #fff;
 }
 
+/* Code block typography & high-contrast base styling */
+article pre {
+  background: #282c34 !important;
+  color: #abb2bf !important;
+}
+
+article pre code {
+  color: #abb2bf !important;
+  background: transparent !important;
+  font-family: Consolas, "Fira Code", Monaco, "Courier New", Courier, monospace;
+}
+
+article pre code:not(.hljs) {
+  color: #abb2bf !important;
+}
+
 /* Card rounded and shadow enhancements */
 #nexmoe-content .nexmoe-primary {
   border-radius: 16px;
