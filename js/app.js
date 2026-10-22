@@ -3,13 +3,54 @@
 // Global Blog State
 window.BlogData = null;
 
-// Load Index Data
+// Early hydrate stats from sessionStorage if available to eliminate navigation flicker
+(function hydrateEarlyStats() {
+  try {
+    const s = sessionStorage.getItem('blog_stats');
+    if (s) {
+      const d = JSON.parse(s);
+      const elA = document.getElementById('stat-articles');
+      const elT = document.getElementById('stat-tags');
+      const elC = document.getElementById('stat-categories');
+      if (elA && d.articles !== undefined) elA.innerText = d.articles;
+      if (elT && d.tags !== undefined) elT.innerText = d.tags;
+      if (elC && d.categories !== undefined) elC.innerText = d.categories;
+    }
+  } catch (e) {}
+})();
+
+// Load Index Data (Supports instant session cache + background revalidation)
 async function loadBlogData() {
   if (window.BlogData) return window.BlogData;
+
+  // 1. Try instant load from session cache
+  try {
+    const cached = sessionStorage.getItem('blog_data_cache');
+    if (cached) {
+      window.BlogData = JSON.parse(cached);
+      // Background revalidation
+      fetch('/articles/index.json', { cache: 'no-cache' })
+        .then(res => res.ok ? res.json() : null)
+        .then(fresh => {
+          if (fresh) {
+            window.BlogData = fresh;
+            sessionStorage.setItem('blog_data_cache', JSON.stringify(fresh));
+            updateSidebarCounts(fresh);
+          }
+        })
+        .catch(() => {});
+      return window.BlogData;
+    }
+  } catch (e) {}
+
+  // 2. Fetch from network
   try {
     const res = await fetch('/articles/index.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('Failed to load articles/index.json');
     window.BlogData = await res.json();
+    try {
+      sessionStorage.setItem('blog_data_cache', JSON.stringify(window.BlogData));
+    } catch (e) {}
     return window.BlogData;
   } catch (err) {
     console.error('loadBlogData error:', err);
@@ -71,17 +112,10 @@ function initSiteTime(startTimeStr) {
   setInterval(update, 60000);
 }
 
-// Initialize Sidebar Widgets (Counts, Tag Cloud, Categories, Archives, Recent)
-async function initSidebar() {
-  const data = await loadBlogData();
-  if (!data) return;
-
+// Helper to update sidebar numbers & persist to sessionStorage
+function updateSidebarCounts(data) {
+  if (!data || !data.articles) return null;
   const articles = data.articles || [];
-  const statArticles = document.getElementById('stat-articles');
-  const statTags = document.getElementById('stat-tags');
-  const statCategories = document.getElementById('stat-categories');
-
-  // Tags collection
   const tagMap = {};
   const categoryMap = {};
 
@@ -93,9 +127,34 @@ async function initSidebar() {
   const uniqueTags = Object.keys(tagMap);
   const uniqueCategories = Object.keys(categoryMap);
 
+  const statArticles = document.getElementById('stat-articles');
+  const statTags = document.getElementById('stat-tags');
+  const statCategories = document.getElementById('stat-categories');
+
   if (statArticles) statArticles.innerText = articles.length;
   if (statTags) statTags.innerText = uniqueTags.length;
   if (statCategories) statCategories.innerText = uniqueCategories.length;
+
+  try {
+    sessionStorage.setItem('blog_stats', JSON.stringify({
+      articles: articles.length,
+      tags: uniqueTags.length,
+      categories: uniqueCategories.length
+    }));
+  } catch (e) {}
+
+  return { uniqueTags, uniqueCategories, tagMap, categoryMap };
+}
+
+// Initialize Sidebar Widgets (Counts, Tag Cloud, Categories, Archives, Recent)
+async function initSidebar() {
+  const data = await loadBlogData();
+  if (!data) return;
+
+  const countsInfo = updateSidebarCounts(data);
+  if (!countsInfo) return;
+  const { uniqueTags, uniqueCategories, categoryMap } = countsInfo;
+  const articles = data.articles || [];
 
   // Tag Cloud
   const tagcloudEl = document.getElementById('randomtagcloud');
