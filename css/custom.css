@@ -273,3 +273,99 @@ article blockquote.markdown-alert-caution {
   height: auto !important;
 }
 
+/* Modern High-Contrast Table Styling */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: 10px;
+}
+
+#article-body table,
+article table {
+  width: 100% !important;
+  display: table !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 24px 0;
+  background: #ffffff;
+  border: 1px solid #d0d7de !important;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(140, 149, 159, 0.08);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+#article-body table thead,
+article table thead,
+#article-body table thead tr,
+article table thead tr {
+  background-color: #f6f8fa !important;
+}
+
+#article-body table th,
+article table th {
+  padding: 13px 18px !important;
+  font-weight: 600 !important;
+  color: #1f2328 !important;
+  text-align: left !important;
+  border-bottom: 2px solid #d0d7de !important;
+  border-right: 1px solid #e1e4e8 !important;
+  background-color: #f6f8fa !important;
+  white-space: nowrap !important;
+}
+
+#article-body table th:last-child,
+article table th:last-child {
+  border-right: none !important;
+}
+
+#article-body table td,
+article table td {
+  padding: 14px 18px !important;
+  border-bottom: 1px solid #eef1f5 !important;
+  border-right: 1px solid #eef1f5 !important;
+  color: #3c4043 !important;
+  vertical-align: middle !important;
+}
+
+#article-body table td:last-child,
+article table td:last-child {
+  border-right: none !important;
+}
+
+#article-body table tr:last-child td,
+article table tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Zebra striping & hover */
+#article-body table tbody tr:nth-child(even),
+article table tbody tr:nth-child(even) {
+  background-color: #f8fafc !important;
+}
+
+#article-body table tbody tr:nth-child(odd),
+article table tbody tr:nth-child(odd) {
+  background-color: #ffffff !important;
+}
+
+#article-body table tbody tr:hover,
+article table tbody tr:hover {
+  background-color: #f0f4f8 !important;
+  transition: background-color 0.15s ease;
+}
+
+/* Prevent first column from awkward word breaking */
+#article-body table td:first-child,
+article table td:first-child {
+  font-weight: 600;
+  color: #1f2328;
+  white-space: nowrap;
+  width: 175px;
+  min-width: 165px;
+  background-color: rgba(246, 248, 250, 0.45);
+}
+
+

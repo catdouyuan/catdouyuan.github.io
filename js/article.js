@@ -200,6 +200,16 @@
     // Setup Code Copy Buttons
     setupCodeTools(bodyEl);
 
+    // Auto-wrap tables in .table-wrapper for smooth responsive horizontal scrolling
+    bodyEl.querySelectorAll('table').forEach(table => {
+      if (!table.parentElement.classList.contains('table-wrapper')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-wrapper';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+      }
+    });
+
     // Image Fancybox Lightbox Wrap
     bodyEl.querySelectorAll('img').forEach((img, idx) => {
       img.setAttribute('loading', 'lazy');
