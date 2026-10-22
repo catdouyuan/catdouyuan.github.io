@@ -36,6 +36,13 @@
   --c-alert-important: #8250df;
   --c-alert-warning: #d97706;
   --c-alert-caution: #cf222e;
+
+  /* Quote & Divider Tokens */
+  --c-quote-bg: #f8f8f8;
+  --c-quote-border: #eee;
+  --c-quote-color: #57606a;
+  --c-quote-mark: #bbb;
+  --c-hr-border: #e1e4e8;
 }
 
 /* 🌙 Dark Mode Palette - System Detection (prefers-color-scheme: dark) */
@@ -73,6 +80,13 @@
     --c-alert-important: #bc8cff;
     --c-alert-warning: #d29922;
     --c-alert-caution: #f85149;
+
+    /* Quote & Divider Tokens */
+    --c-quote-bg: #1c2128;
+    --c-quote-border: #30363d;
+    --c-quote-color: #c9d1d9;
+    --c-quote-mark: #484f58;
+    --c-hr-border: #30363d;
   }
 
   body {
@@ -123,6 +137,13 @@ body.mdui-theme-layout-dark {
   --c-alert-important: #bc8cff;
   --c-alert-warning: #d29922;
   --c-alert-caution: #f85149;
+
+  /* Quote & Divider Tokens */
+  --c-quote-bg: #1c2128;
+  --c-quote-border: #30363d;
+  --c-quote-color: #c9d1d9;
+  --c-quote-mark: #484f58;
+  --c-hr-border: #30363d;
 
   background-color: var(--c-body-bg) !important;
   color: var(--c-text-primary) !important;
@@ -323,11 +344,16 @@ article code:not(pre code) {
   }
 }
 
-/* Blockquote quotation styling refinement */
+/* Blockquote quotation styling refinement (Adaptive Theme) */
 article blockquote {
+  background-color: var(--c-quote-bg) !important;
+  border: 1px solid var(--c-quote-border) !important;
+  color: var(--c-quote-color) !important;
+  border-radius: 10px;
   padding: 14px 38px 14px 44px;
   position: relative;
   line-height: 1.8;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 article blockquote:before {
@@ -335,7 +361,7 @@ article blockquote:before {
   top: 6px;
   left: 12px;
   position: absolute;
-  color: #bbb;
+  color: var(--c-quote-mark) !important;
   font-size: 2.4em;
   line-height: 1;
   font-family: Georgia, serif;
@@ -347,11 +373,17 @@ article blockquote:after {
   bottom: -6px;
   right: 12px;
   position: absolute;
-  color: #bbb;
+  color: var(--c-quote-mark) !important;
   font-size: 2.4em;
   line-height: 1;
   font-family: Georgia, serif;
   pointer-events: none;
+}
+
+article hr {
+  border: 0 !important;
+  border-top: 1px dashed var(--c-hr-border) !important;
+  margin: 24px 0 !important;
 }
 
 /* GitHub Flavored Markdown Alerts (Callout Boxes) */
