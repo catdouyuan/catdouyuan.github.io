@@ -127,17 +127,47 @@ gaps:
 - 极致紧凑铺满：将 `inner_gap` 设为 `0px`，`outer_gap` 的左/右/下设为 `0px`。
 - 极简微缝风格（推荐）：将 `inner_gap` 设为 `4px ~ 8px`，既保留视觉层次感，又完全不浪费屏幕空间。
 
-### 3. 状态栏上的部分小图标点击没任何反应？
+### 3. 状态栏上的小图标点击没反应？为 Wi-Fi 与蓝牙添加系统快捷面板
 
-- **根因分析**：官方自带的入门模板（`glzr-io.starter`）中很多系统控件（如音量、Wi-Fi、电池等）主要作为只读数据显示组件设计，默认并没有配置桌面触发事件，这并非软件 Bug。
-- **解决方案**：
-  1. **方案 A**：直接在 Zebar 的 Marketplace 挑选社区交互更加完备的成熟主题包（例如深受好评的 `notth4tcold.mei` 等）；
-  2. **方案 B**：利用 Zebar 的 HTML/JS 可定制特性，为图标添加系统的 URI 协议绑定。例如点击触发进入网络设置：
+- **痛点场景**：在使用平铺窗口管理器时，通常会选择将 Windows 任务栏自动隐藏。但多数 Zebar 主题（如经典的 `notth4tcold.mei`）中的 Wi-Fi 图标仅用于静态展示 SSID，甚至默认没有蓝牙图标。每次想要切换 Wi-Fi 或连接蓝牙耳机，都得频繁呼出任务栏，非常割裂。
+- **根因与技术调研**：
+  1. **缺少蓝牙 Provider**：Zebar 官方目前仅提供 `network`、`cpu`、`memory` 等 Provider，并没有内置的蓝牙数据源；
+  2. **Shell 命令调用能力**：早期 Zebar 3.0 不支持执行系统命令，而 **Zebar 3.3.1+ 新增了 `zebar.shellExec` API**，配合白名单机制可安全调用外部命令；
+  3. **Windows 11 快速设置深链**：Windows 11 支持通过 Action Center URI 直达控制面板：
+     - 网络面板：`explorer.exe ms-actioncenter:controlcenter/network`
+     - 蓝牙面板：`explorer.exe ms-actioncenter:controlcenter/bluetooth`
+- **实战改造步骤**（以 `~/.glzr/zebar/<主题目录>/` 为例）：
+  1. **升级 SDK 引用**：编辑 `index.html`，确保引入的 Zebar CDN 库版本升级至 `3.3.1` 或以上；
+  2. **绑定点击事件与补充蓝牙图标**：在 `index.html` 中为 Wi-Fi 容器添加点击事件，并追加蓝牙图标按钮：
      ```html
-     <button onClick="shellExec('ms-settings:network-wifi')">
-       <i class="nf nf-fa-wifi"></i>
-     </button>
+     <!-- Wi-Fi 区域：点击唤起快速设置网络面板 -->
+     <div class="wifi" onClick="zebar.shellExec('explorer.exe', ['ms-actioncenter:controlcenter/network'])">
+       ...
+     </div>
+
+     <!-- 蓝牙区域：点击唤起快速设置蓝牙面板 -->
+     <i class="nf nf-md-bluetooth bluetooth"
+        onClick="zebar.shellExec('explorer.exe', ['ms-actioncenter:controlcenter/bluetooth'])"></i>
      ```
+  3. **声明权限白名单（关键）**：
+     编辑主题下的 `zpack.json`，在 `privileges.shellCommands` 中声明 `explorer.exe` 并用正则严格限定参数，防止权限滥用：
+     ```json
+     {
+       "privileges": {
+         "shellCommands": [
+           {
+             "program": "explorer.exe",
+             "argsRegex": "^ms-actioncenter:controlcenter/(network|bluetooth)$"
+           }
+         ]
+       }
+     }
+     ```
+  4. **调整样式**：在 `styles.css` 中将 `.bluetooth` 加入统一样式规则，确保与原有图标间距和悬浮效果对齐。
+- **使用体验与细节说明**：
+  - **首次授权**：在托盘右键 Zebar 选择重新加载主题（Reload），首次点击图标时会弹出权限确认窗口，允许一次即可；
+  - **点击层级与已知限制**：该深链会打开快速设置主面板（对应模块处于折叠状态），点击面板内的 `>` 箭头即可展开网络/设备列表。虽需两次点击（与从任务栏操作次数相同），但完全无需唤出任务栏；
+  - **为何不读取已连接蓝牙设备名**：受限于没有官方 Provider，若要实时读取设备名称需要通过 PowerShell 轮询设备状态，开销与复杂度过高，作为快速唤起入口是当下最清爽实用的折中方案。
 
 ### 4. <kbd>Alt</kbd> + <kbd>Enter</kbd> 默认启动 CMD，如何换成 Windows Terminal 或 Git Bash？
 
