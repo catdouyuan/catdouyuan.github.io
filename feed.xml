@@ -8,11 +8,11 @@
     <lastBuildDate>Sun, 25 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://catdouyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Git Bash 启动报 Miniconda UnicodeDecodeError 与 cygpath 错误的排查与解决</title>
+      <title>Git Bash 启动报 Miniconda UnicodeDecodeError 与 cygpath 错误排查（附 Codex 丢失踩坑）</title>
       <link>https://catdouyuan.github.io/article.html?slug=gitbash-miniconda-cygpath-gbk-error</link>
       <guid isPermaLink="false">gitbash-miniconda-cygpath-gbk-error</guid>
       <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
-      <description>每次打开 Git Bash 都会弹出刺眼的 Miniconda UnicodeDecodeError 'gbk' 与 cygpath AttributeError 报错堆栈？本文深度剖析 Windows PATH 中文路径、MSYS2 cygpath 与 Python 字符编码冲突根因，详解为什么 export PYTHONIOENCODING 无效，并提供 PEP 540 全局 UTF-8 模式等三套终极解决方案。</description>
+      <description>每次打开 Git Bash 都会弹出刺眼的 Miniconda UnicodeDecodeError 'gbk' 与 cygpath 报错？解决报错后修复 Codex 新增 PATH 却又在 Git Bash 提示 command not found？本文深度剖析 Windows PATH 中文与 Python 编码冲突根因，并复盘 Git Bash 由 Conda 初始化重组 PATH 导致的连环踩坑与终极解法。</description>
       <category>踩坑指南</category>
     </item>
     <item>
