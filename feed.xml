@@ -5,8 +5,16 @@
     <link>https://catdouyuan.github.io/</link>
     <description>计算机科学与技术 · 学习记录与技术分享。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 22 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://catdouyuan.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git Bash 启动报 Miniconda UnicodeDecodeError 与 cygpath 错误的排查与解决</title>
+      <link>https://catdouyuan.github.io/article.html?slug=gitbash-miniconda-cygpath-gbk-error</link>
+      <guid isPermaLink="false">gitbash-miniconda-cygpath-gbk-error</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <description>每次打开 Git Bash 都会弹出刺眼的 Miniconda UnicodeDecodeError 'gbk' 与 cygpath AttributeError 报错堆栈？本文深度剖析 Windows PATH 中文路径、MSYS2 cygpath 与 Python 字符编码冲突根因，详解为什么 export PYTHONIOENCODING 无效，并提供 PEP 540 全局 UTF-8 模式等三套终极解决方案。</description>
+      <category>踩坑指南</category>
+    </item>
     <item>
       <title>WorkBuddy2API Panel：将腾讯 WorkBuddy 转化为 OpenAI 兼容 API 的多账号网关神器</title>
       <link>https://catdouyuan.github.io/article.html?slug=workbuddy2api-panel</link>
