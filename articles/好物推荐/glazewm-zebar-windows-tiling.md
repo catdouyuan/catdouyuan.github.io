@@ -129,45 +129,60 @@ gaps:
 
 ### 3. 状态栏上的小图标点击没反应？为 Wi-Fi 与蓝牙添加系统快捷面板
 
-- **痛点场景**：在使用平铺窗口管理器时，通常会选择将 Windows 任务栏自动隐藏。但多数 Zebar 主题（如经典的 `notth4tcold.mei`）中的 Wi-Fi 图标仅用于静态展示 SSID，甚至默认没有蓝牙图标。每次想要切换 Wi-Fi 或连接蓝牙耳机，都得频繁呼出任务栏，非常割裂。
-- **根因与技术调研**：
-  1. **缺少蓝牙 Provider**：Zebar 官方目前仅提供 `network`、`cpu`、`memory` 等 Provider，并没有内置的蓝牙数据源；
-  2. **Shell 命令调用能力**：早期 Zebar 3.0 不支持执行系统命令，而 **Zebar 3.3.1+ 新增了 `zebar.shellExec` API**，配合白名单机制可安全调用外部命令；
-  3. **Windows 11 快速设置深链**：Windows 11 支持通过 Action Center URI 直达控制面板：
-     - 网络面板：`explorer.exe ms-actioncenter:controlcenter/network`
-     - 蓝牙面板：`explorer.exe ms-actioncenter:controlcenter/bluetooth`
-- **实战改造步骤**（以 `~/.glzr/zebar/<主题目录>/` 为例）：
-  1. **升级 SDK 引用**：编辑 `index.html`，确保引入的 Zebar CDN 库版本升级至 `3.3.1` 或以上；
-  2. **绑定点击事件与补充蓝牙图标**：在 `index.html` 中为 Wi-Fi 容器添加点击事件，并追加蓝牙图标按钮：
+- **痛点场景**：在使用平铺窗口管理器时，通常会将 Windows 任务栏自动隐藏。但多数 Zebar 主题（如经典的 `notth4tcold.mei`）中的 Wi-Fi 图标仅仅是个静态展示 SSID 的文本或图标，甚至默认根本没有蓝牙图标。每次想要切换 Wi-Fi 或连接蓝牙耳机，都得费劲把系统任务栏呼出来，工作流非常割裂。
+  因此我决定对其进行改造：**在 Zebar 里补充蓝牙图标，并让 Wi-Fi 与蓝牙图标支持点击直接打开对应的系统快捷面板。**
+
+- **曲折探索与踩坑复盘：为什么说这次成功靠的是“换入口”，而不是“打补丁”？**
+  
+  给蓝牙加快捷面板很顺利，但 Wi-Fi 这边的折腾过程非常值得复盘。最后能完美解决，关键在于我**换了一个入口思路**，而不是继续在原有思路里缝缝补补。
+  
+  为了实现点击直接查看可用网络列表，我前前后后探索了多条路线：
+  
+  1. **PowerToys / Command Palette 等外部工具**：查阅了官方文档与 GitHub 插件生态，并没有现成轻巧的 Wi-Fi / 蓝牙快速切换扩展，外部工具链太重，放弃。
+  2. **Windows 11 快速设置深链 `ms-actioncenter:controlcenter/...`**：
+     - 蓝牙面板：`ms-actioncenter:controlcenter/bluetooth` 非常完美，能直接直达蓝牙设备详情页。
+     - Wi-Fi 面板：`ms-actioncenter:controlcenter/network` 却不尽如人意——它只能打开快速设置“主面板”，里面的 WLAN 模块处于**折叠状态**，并不能直达网络列表，我还得再去手动点一下 `>` 展开，依然多了一步操作。
+  3. **`SendKeys` 模拟按键（踩坑血泪史）**：既然手动按 `Win + A`、`Tab`、`Enter` 刚好能展开 WLAN，我便尝试写了一段脚本在唤起面板后自动模拟按键。结果实际跑起来彻底翻车——系统弹出面板存在微小动画延迟，**焦点时序根本不可控**！面板还没弹出来，按键事件就已经盲发到了错误的位置，结果误触了关闭按钮，**直接把我当前的 Wi-Fi 给掐断了**。方案极其不稳定，果断回滚放弃。
+  4. **UI Automation 定位窗口自动点击 `>`**：考虑过通过 UI Automation 查找快速设置窗口再自动点击。这确实比发盲键稳定，但需要维护一段额外的 PowerShell 脚本，还要给 Zebar 开放 shell 权限白名单，杀鸡用牛刀，复杂度与维护成本太高。
+  5. **终极突破口：`ms-availablenetworks:`**：既然 Action Center 的网络深链总想折叠，为什么非要在快速设置这棵树上吊死？顺着 Windows 内部协议深挖，我找到了这个关键的原生 URI —— **`ms-availablenetworks:`**。它是 Windows 专门用来展示**“可用 WLAN 网络列表”**的内部协议，直接一步到位弹出 Wi-Fi 详情页！不用任何外部脚本，不用模拟键盘输入，也不需要额外复杂权限，优雅至极。
+
+- **最终落地方案与实战改造**（以 `~/.glzr/zebar/<主题目录>/` 为例）：
+
+  1. **升级 Zebar 版本**：
+     确保使用的 Zebar 版本升级至 **3.3.1** 或以上（早期版本不支持 `zebar.shellExec` API）。
+  2. **修改 `index.html` 绑定点击事件与添加蓝牙图标**：
+     在 `index.html` 中为 Wi-Fi 容器绑定 `ms-availablenetworks:`，同时追加蓝牙图标并绑定蓝牙深链：
      ```html
-     <!-- Wi-Fi 区域：点击唤起快速设置网络面板 -->
-     <div class="wifi" onClick="zebar.shellExec('explorer.exe', ['ms-actioncenter:controlcenter/network'])">
+     <!-- Wi-Fi 区域：点击直达可用 WLAN 列表详情页 -->
+     <div class="wifi" onClick="zebar.shellExec('explorer.exe', ['ms-availablenetworks:'])">
        ...
      </div>
 
-     <!-- 蓝牙区域：点击唤起快速设置蓝牙面板 -->
+     <!-- 蓝牙区域：点击直达已配对与可用蓝牙设备详情页 -->
      <i class="nf nf-md-bluetooth bluetooth"
         onClick="zebar.shellExec('explorer.exe', ['ms-actioncenter:controlcenter/bluetooth'])"></i>
      ```
   3. **声明权限白名单（关键）**：
-     编辑主题下的 `zpack.json`，在 `privileges.shellCommands` 中声明 `explorer.exe` 并用正则严格限定参数，防止权限滥用：
+     Zebar 拥有严格的安全沙箱机制。编辑主题目录下的 `zpack.json`，在 `privileges.shellCommands` 中声明 `explorer.exe`，并用正则表达式严格限制只允许这两条 URI，防止权限滥用：
      ```json
      {
        "privileges": {
          "shellCommands": [
            {
              "program": "explorer.exe",
-             "argsRegex": "^ms-actioncenter:controlcenter/(network|bluetooth)$"
+             "argsRegex": "^(ms-availablenetworks:|ms-actioncenter:controlcenter/bluetooth)$"
            }
          ]
        }
      }
      ```
-  4. **调整样式**：在 `styles.css` 中将 `.bluetooth` 加入统一样式规则，确保与原有图标间距和悬浮效果对齐。
-- **使用体验与细节说明**：
-  - **首次授权**：在托盘右键 Zebar 选择重新加载主题（Reload），首次点击图标时会弹出权限确认窗口，允许一次即可；
-  - **点击层级与已知限制**：该深链会打开快速设置主面板（对应模块处于折叠状态），点击面板内的 `>` 箭头即可展开网络/设备列表。虽需两次点击（与从任务栏操作次数相同），但完全无需唤出任务栏；
-  - **为何不读取已连接蓝牙设备名**：受限于没有官方 Provider，若要实时读取设备名称需要通过 PowerShell 轮询设备状态，开销与复杂度过高，作为快速唤起入口是当下最清爽实用的折中方案。
+  4. **补齐样式**：
+     在 `styles.css` 中将新增的 `.bluetooth` 类名加入与现有图标相同的样式规则（如 `cursor: pointer`、悬停色彩、左右间距等），保持视觉与交互体验一致。
+  5. **重载与授权生效**：
+     在任务栏托盘右键 Zebar 图标选择 **Reload** 重载主题。首次分别点击 Wi-Fi 或蓝牙图标时，Zebar 会弹出一次性权限确认窗口，点击允许（Allow）即可。
+
+- **使用体验与效果**：
+  改造完成后，点击 Wi-Fi 图标秒开系统原生的网络选择侧边栏，点击蓝牙图标直达蓝牙设备管理。中间试验用的 PowerShell 脚本全部删掉，零额外外部依赖，体验与原装系统托盘完全一致！
 
 ### 4. <kbd>Alt</kbd> + <kbd>Enter</kbd> 默认启动 CMD，如何换成 Windows Terminal 或 Git Bash？
 
